@@ -6,4 +6,4 @@ Pour ce projet, vous allez implémenter des classes pour simuler un réseau rég
 
 ## Membre du projet
 
-- NOM, prénom
+- CHERIF Aimen
