@@ -6,6 +6,8 @@ public class AlwaysOnRegulator implements Regulator{
         return 1.;
     }
 
+
+    //affiche les informations du régulateur à sauvegarder
     @Override
     public String getInfo() {
         return null;
