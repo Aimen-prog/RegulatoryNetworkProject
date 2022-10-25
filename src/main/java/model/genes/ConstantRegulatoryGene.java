@@ -41,7 +41,7 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
 
   @Override
   public void update(double duration) {
-
+    //setProteinConcentration(getProteinConcentration()+ (getMaximalProduction() - getDegradationRate())*duration) ;
   }
 
   @Override
