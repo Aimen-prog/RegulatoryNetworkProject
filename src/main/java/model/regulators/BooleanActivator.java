@@ -10,7 +10,11 @@ public class BooleanActivator extends BooleanRegulator{
     }
     @Override
     public double inputFunction() {
-        return 1.;
+        if (geneIsSignaled() & thresholdIsAttained()){
+         return 1.0;
+        } else {
+            return 0.;
+        }
     }
 
 }
