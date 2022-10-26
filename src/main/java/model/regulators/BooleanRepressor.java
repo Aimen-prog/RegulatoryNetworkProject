@@ -9,7 +9,7 @@ public class BooleanRepressor extends BooleanRegulator{
 
     @Override
     public double inputFunction() {
-        return 1.;
+        return 1. ;
     }
 
 
