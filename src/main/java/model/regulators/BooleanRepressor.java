@@ -9,9 +9,11 @@ public class BooleanRepressor extends BooleanRegulator{
 
     @Override
     public double inputFunction() {
-        return 1. ;
+        if (geneIsSignaled() & thresholdIsAttained()){
+            return 0.0;
+        } else {
+            return 1.;
+        }
     }
-
-
 
 }

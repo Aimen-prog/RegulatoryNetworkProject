@@ -14,7 +14,7 @@ public abstract class BooleanRegulator implements Regulator {
 
 
     protected boolean thresholdIsAttained() {
-        return gene.getProteinConcentration() >= threshold;
+        return gene.getProteinConcentration() > threshold;
     }
     protected boolean geneIsSignaled() {
         return gene.isSignaled();
