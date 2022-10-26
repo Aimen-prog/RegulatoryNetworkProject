@@ -1,15 +1,17 @@
 package model.regulators;
 
+import model.genes.RegulatoryGene;
+
 public class BooleanRepressor extends BooleanRegulator{
+    public BooleanRepressor(double threshold, RegulatoryGene regulator) {
+        super(threshold, regulator);
+    }
+
     @Override
     public double inputFunction() {
         return 1.;
     }
 
 
-    //affiche les informations du régulateur à sauvegarder
-    @Override
-    public String getInfo() {
-        return null;
-    }
+
 }
