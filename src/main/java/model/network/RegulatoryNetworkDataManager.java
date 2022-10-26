@@ -1,6 +1,7 @@
 package model.network;
 
 import model.events.SimulationEvent;
+import model.genes.ConcreteRegulatoryGene;
 import model.genes.ConstantRegulatoryGene;
 import model.genes.RegulatoryGene;
 
@@ -84,6 +85,13 @@ public class RegulatoryNetworkDataManager {
     genes.add(y);
     RegulatoryGene z = new ConstantRegulatoryGene("Z", 4, false);
     genes.add(z);
+
+    RegulatoryGene reg = new ConcreteRegulatoryGene("INS",80, 0.9,
+            50, true);
+    reg.setProteinConcentration(reg.getInitialProteinConcentration());
+    genes.add(reg);
+
+
     List<SimulationEvent> simulationEvents = new ArrayList<>();
     return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
   }

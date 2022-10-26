@@ -1,5 +1,6 @@
 package model.genes;
 
+import model.regulators.AlwaysOnRegulator;
 import model.regulators.Regulator;
 
 public class ConcreteRegulatoryGene implements RegulatoryGene {
@@ -43,21 +44,6 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
     }
 
     @Override
-    public void update(double duration) {
-
-    }
-
-    @Override
-    public double getMaximalProduction() {
-        return maximalProduction;
-    }
-
-    @Override
-    public double getDegradationRate() {
-        return degradationRate;
-    }
-
-    @Override
     public Regulator getRegulator() {
         return regulator;
     }
@@ -65,7 +51,6 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
     @Override
     public void setRegulator(Regulator regulator) {
         this.regulator = regulator;
-
     }
 
     @Override
@@ -79,12 +64,39 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
 
     }
 
+    @Override
+    public String toString() {
+        return "RegulatoryGene{name= " + name +
+                ", isSignaled= " + isSignaled +
+                '}';
+    }
+
+    @Override
+    public double getMaximalProduction() {
+        return maximalProduction;
+    }
+
+    @Override
+    public double getDegradationRate() {
+        return degradationRate;
+    }
+
     double production() {
-        return 1;
+        if (regulator == null) {
+            return maximalProduction;
+        } else {
+            return maximalProduction * (regulator.inputFunction());
+        }
     }
     double degradation() {
-        return 1;
+        return degradationRate * proteinConcentration;
     }
+
+    @Override
+    public void update(double duration) {
+        proteinConcentration = proteinConcentration+duration*(production()- degradation());
+    }
+
 
 
 }
