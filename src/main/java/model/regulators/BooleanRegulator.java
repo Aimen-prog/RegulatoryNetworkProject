@@ -14,10 +14,10 @@ public abstract class BooleanRegulator implements Regulator {
 
 
     protected boolean thresholdIsAttained() {
-        return true;
+        return gene.getProteinConcentration() >= threshold;
     }
     protected boolean geneIsSignaled() {
-        return false;
+        return gene.isSignaled();
     }
 
     public String getInfo() {
