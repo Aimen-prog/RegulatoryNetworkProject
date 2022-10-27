@@ -9,9 +9,24 @@ public abstract class CompositeRegulator implements Regulator{
         this.regulators = regulators;
     }
 
+    @Override
+    public double inputFunction() {
+//        for ( Regulator regulator : regulators) {
+//            return regulator.inputFunction();
+//        }
+        return 0;
 
+    }
 
+    //donne la valeur de base de la sortie d’inputFunction (0 ou 1)
+    protected double initialValue(){
+        return 1.;
+    }
 
+    protected double cumulativeValue(double accumulator ,double value) {
+        return 1.;
+
+    }
 
 
 
@@ -20,11 +35,7 @@ public abstract class CompositeRegulator implements Regulator{
 
 
 ////////////////////////////////////////////////
-    @Override
-    public double inputFunction() {
-        return 1.;
 
-    }
 
     @Override
     public String getInfo() {
