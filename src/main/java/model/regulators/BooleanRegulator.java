@@ -19,7 +19,7 @@ public abstract class BooleanRegulator implements Regulator {
     protected boolean geneIsSignaled() {
         return gene.isSignaled();
     }
-
+    @Override
     public String getInfo() {
         return null;
     }
