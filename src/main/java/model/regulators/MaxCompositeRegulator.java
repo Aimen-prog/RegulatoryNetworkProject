@@ -7,13 +7,13 @@ public class MaxCompositeRegulator extends CompositeRegulator{
         super(regulators);
     }
 
-    protected double initialValue() {
-        return 0.;
 
+    protected double initialValue() {
+        return 1.;
     }
 
     protected double cumulativeValue(double accumulator,double value) {
-        return 0.;
+        return accumulator + value;
 
     }
 

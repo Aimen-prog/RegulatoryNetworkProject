@@ -1,6 +1,9 @@
 package model.regulators;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Collections.*;
 
 public abstract class CompositeRegulator implements Regulator{
     private List<Regulator> regulators;
@@ -11,37 +14,21 @@ public abstract class CompositeRegulator implements Regulator{
 
     @Override
     public double inputFunction() {
-//        for ( Regulator regulator : regulators) {
-//            return regulator.inputFunction();
-//        }
-        return 0;
-
+        List <Double> input = new ArrayList<>();
+        for (int i =0; i<regulators.size(); i++)
+            input.add(regulators.get(i).inputFunction());
+        if (initialValue()==1.)
+            return max(input);
+        else
+            return min(input);
     }
 
-    //donne la valeur de base de la sortie d’inputFunction (0 ou 1)
-    protected double initialValue(){
-        return 1.;
-    }
-
-    protected double cumulativeValue(double accumulator ,double value) {
-        return 1.;
-
-    }
-
-
-
-
-
-
-
-////////////////////////////////////////////////
-
+    abstract protected double initialValue();
+    abstract protected double cumulativeValue(double accumulator ,double value);
 
     @Override
     public String getInfo() {
         return null;
     }
-///////////////////////////////////////////////////////////
-
 
 }
