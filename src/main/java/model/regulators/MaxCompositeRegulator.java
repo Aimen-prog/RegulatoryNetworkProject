@@ -17,6 +17,4 @@ public class MaxCompositeRegulator extends CompositeRegulator{
 
     }
 
-
-
 }
