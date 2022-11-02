@@ -23,7 +23,7 @@ public abstract class AbstractSimulationEvent implements SimulationEvent {
 
     public void updateGenes(){
         for (RegulatoryGene gene : genes ){
-            gene.update(time);
+            updateGene(gene);
         }
     }
 
