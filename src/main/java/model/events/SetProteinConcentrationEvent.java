@@ -6,17 +6,16 @@ import java.util.List;
 
 public class SetProteinConcentrationEvent extends AbstractSimulationEvent{
 
-    SetProteinConcentrationEvent(List<RegulatoryGene> genes , double time , double newConcentration){
-        super(genes, time);
-        for (RegulatoryGene gene : genes ){
-            gene.setProteinConcentration(newConcentration);
-        }
+    private double newConcentration ;
 
+    public SetProteinConcentrationEvent(List<RegulatoryGene> genes , double time , double newConcentration){
+        super(genes, time);
+        this.newConcentration = newConcentration;
     }
 
     @Override
     protected void updateGene(RegulatoryGene gene) {
-        gene.update(getTime());
+        gene.setProteinConcentration(newConcentration);
 
     }
 

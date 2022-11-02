@@ -18,17 +18,19 @@ public class CompositeRegulatorTest {
 
     @Test
     public void testInputFunction() {
-        List<Regulator> regulatorList = new ArrayList<>();
+        List<Regulator> firstregulatorList = new ArrayList<>();
         Regulator reg1 = new AlwaysOnRegulator();
-        regulatorList.add(reg1);
+        firstregulatorList.add(reg1);
         RegulatoryGene gene = new ConcreteRegulatoryGene("INS",80, 0.9,
-                50, true);
-        BooleanRegulator reg2 = new BooleanActivator(4,gene);
-        regulatorList.add(reg2);
+                50, false);
+        BooleanRegulator reg2 = new BooleanActivator(14,gene);
+        firstregulatorList.add(reg2);
 
+        CompositeRegulator compMax = new MaxCompositeRegulator(firstregulatorList);
+        assertThat(compMax.inputFunction()).isEqualTo(1.);
+        CompositeRegulator compMin = new MinCompositeRegulator(firstregulatorList);
+        assertThat(compMin.inputFunction()).isEqualTo(0.);
 
-        CompositeRegulator comp = new MaxCompositeRegulator(regulatorList);
-        assertThat(comp.inputFunction()).isEqualTo(1.);
 
     }
 

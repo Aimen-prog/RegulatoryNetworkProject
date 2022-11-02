@@ -6,17 +6,17 @@ import java.util.List;
 
 public class SetSignaledEvent extends AbstractSimulationEvent {
 
-    SetSignaledEvent(List<RegulatoryGene> genes , double time , boolean newSignaledValue){
+    private boolean newSignaledValue ;
+
+    public SetSignaledEvent(List<RegulatoryGene> genes , double time , boolean newSignaledValue){
         super(genes, time);
-        for (RegulatoryGene gene : genes ){
-            gene.setSignaled(newSignaledValue);
-        }
+        this.newSignaledValue = newSignaledValue;
 
     }
 
     @Override
     protected void updateGene(RegulatoryGene gene) {
-        gene.update(getTime());
+        gene.setSignaled(newSignaledValue);
     }
 
     @Override
