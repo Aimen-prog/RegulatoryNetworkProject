@@ -16,6 +16,8 @@ public class ConcreteRegulatoryGeneTest {
         reg.setProteinConcentration(15.0);
         assertEquals(15.0,reg.getProteinConcentration());
         assertNotEquals(10.0,reg.getProteinConcentration());
+        reg.setProteinConcentration(-1.0);
+        assertEquals(0.,reg.getProteinConcentration());
     }
     @Test
     public void testGetProteinConcentration() {

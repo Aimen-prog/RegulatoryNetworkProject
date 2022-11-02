@@ -21,10 +21,6 @@ public class SetProteinConcentrationEvent extends AbstractSimulationEvent{
 
     @Override
     public String getInfo() {
-        String str = "";
-        for (RegulatoryGene gene : getGenes() ){
-            str += gene.getProteinConcentration() + " " ;
-        }
-        return "SetProteinConcentrationEvent "+ str;
+        return "SetProteinConcentrationEvent "+ newConcentration;
     }
 }

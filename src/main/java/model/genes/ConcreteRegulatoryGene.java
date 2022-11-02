@@ -34,7 +34,10 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
 
     @Override
     public void setProteinConcentration(double proteinConcentration) {
-        this.proteinConcentration = proteinConcentration;
+        if (proteinConcentration >= 0.)
+            this.proteinConcentration = proteinConcentration;
+        else
+            this.proteinConcentration = 0.;
 
     }
 

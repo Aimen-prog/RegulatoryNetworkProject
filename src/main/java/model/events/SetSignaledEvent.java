@@ -21,10 +21,6 @@ public class SetSignaledEvent extends AbstractSimulationEvent {
 
     @Override
     public String getInfo() {
-        String str = "";
-        for (RegulatoryGene gene : getGenes() ){
-            str += gene.isSignaled() + " " ;
-        }
-        return "SetSignaledEvent "+ str;
+        return "SetSignaledEvent "+ newSignaledValue;
     }
 }
