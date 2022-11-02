@@ -5,11 +5,11 @@ import model.genes.RegulatoryGene;
 
 public abstract class BooleanRegulator implements Regulator {
     protected double threshold ;
-    protected ConcreteRegulatoryGene gene;
+    protected RegulatoryGene gene;
 
     protected BooleanRegulator(double threshold, RegulatoryGene regulator){
         this.threshold=threshold;
-        this.gene.setRegulator((Regulator) regulator);
+        this.gene= regulator;
     }
 
 

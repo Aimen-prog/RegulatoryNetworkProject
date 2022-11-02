@@ -12,15 +12,14 @@ public abstract class CompositeRegulator implements Regulator{
         this.regulators = regulators;
     }
 
+
     @Override
     public double inputFunction() {
-        List <Double> input = new ArrayList<>();
-        for (int i =0; i<regulators.size(); i++)
-            input.add(regulators.get(i).inputFunction());
-        if (initialValue()==0.)
-            return max(input);
-        else
-            return min(input);
+        double accumulator = initialValue();
+        for(Regulator regulator: regulators){
+            accumulator = cumulativeValue(accumulator, regulator.inputFunction());
+        }
+        return accumulator;
     }
 
     abstract protected double initialValue();
