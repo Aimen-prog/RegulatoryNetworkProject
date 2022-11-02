@@ -9,10 +9,10 @@ public class MinCompositeRegulator extends CompositeRegulator{
 
 
     protected double initialValue() {
-        return 0.;
+        return 1.;
     }
 
     protected double cumulativeValue(double accumulator,double value) {
-        return accumulator + value;
+        return Math.min(accumulator, value);
     }
 }

@@ -1,5 +1,6 @@
 package model.network;
 
+import model.events.SetProteinConcentrationEvent;
 import model.events.SimulationEvent;
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.ConstantRegulatoryGene;

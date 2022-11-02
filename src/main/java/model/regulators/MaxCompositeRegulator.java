@@ -9,11 +9,11 @@ public class MaxCompositeRegulator extends CompositeRegulator{
 
 
     protected double initialValue() {
-        return 1.;
+        return 0.;
     }
 
     protected double cumulativeValue(double accumulator,double value) {
-        return accumulator + value;
+        return Math.max(accumulator, value);
 
     }
 

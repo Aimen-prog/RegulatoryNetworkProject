@@ -17,7 +17,7 @@ public abstract class CompositeRegulator implements Regulator{
         List <Double> input = new ArrayList<>();
         for (int i =0; i<regulators.size(); i++)
             input.add(regulators.get(i).inputFunction());
-        if (initialValue()==1.)
+        if (initialValue()==0.)
             return max(input);
         else
             return min(input);
