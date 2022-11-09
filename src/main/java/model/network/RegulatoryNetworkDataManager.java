@@ -5,6 +5,9 @@ import model.events.SimulationEvent;
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.ConstantRegulatoryGene;
 import model.genes.RegulatoryGene;
+import model.regulators.AlwaysOnRegulator;
+import model.regulators.BooleanActivator;
+import model.regulators.BooleanRepressor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -78,23 +81,41 @@ public class RegulatoryNetworkDataManager {
     genes.put(name, new ConstantRegulatoryGene(name, concentration, isSignaled));
   }
 
-  public RegulatoryNetwork generate() {
-    List<RegulatoryGene> genes = new ArrayList<>();
-    RegulatoryGene x = new ConstantRegulatoryGene("X", 3, true);
-    genes.add(x);
-    RegulatoryGene y = new ConstantRegulatoryGene("Y", 2, true);
-    genes.add(y);
-    RegulatoryGene z = new ConstantRegulatoryGene("Z", 4, false);
-    genes.add(z);
+//  public RegulatoryNetwork generate() {
+//    List<RegulatoryGene> genes = new ArrayList<>();
+//    RegulatoryGene x = new ConstantRegulatoryGene("X", 3, true);
+//    genes.add(x);
+//    RegulatoryGene y = new ConstantRegulatoryGene("Y", 2, true);
+//    genes.add(y);
+//    RegulatoryGene z = new ConstantRegulatoryGene("Z", 4, false);
+//    genes.add(z);
+//
+//    RegulatoryGene reg = new ConcreteRegulatoryGene("INS",80, 0.9,
+//            50, true);
+//    reg.setProteinConcentration(reg.getInitialProteinConcentration());
+//    genes.add(reg);
+//
+//
+//    List<SimulationEvent> simulationEvents = new ArrayList<>();
+//    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
+//  }
 
-    RegulatoryGene reg = new ConcreteRegulatoryGene("INS",80, 0.9,
-            50, true);
-    reg.setProteinConcentration(reg.getInitialProteinConcentration());
-    genes.add(reg);
-
-
-    List<SimulationEvent> simulationEvents = new ArrayList<>();
-    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
+  public RegulatoryNetwork generate () {
+    List < RegulatoryGene > genes = new ArrayList <>() ;
+    RegulatoryGene x = new ConcreteRegulatoryGene ( " X " , 3.0 , 0.1 , 2.0 , true ) ;
+    x.setRegulator ( new AlwaysOnRegulator() ) ;
+    genes.add(x) ;
+    RegulatoryGene y = new ConcreteRegulatoryGene ( " Y " , 4.0 , 0.12 , 2.0 , true ) ;
+    genes.add (y) ;
+    y . setRegulator ( new BooleanActivator(10 ,x )) ;
+    RegulatoryGene z = new ConcreteRegulatoryGene ( " Z " , 5.0 , 0.15 , 2.0 , true ) ;
+    genes.add (z) ;
+    z.setRegulator ( new BooleanRepressor(7 , y ) ) ;
+    List < SimulationEvent > simulationEvents = new ArrayList <>() ;
+    simulationEvents . add ( new SetProteinConcentrationEvent ( List.of( x ) , 10.0 , 3.0) ) ;
+    simulationEvents . add ( new SetProteinConcentrationEvent ( List.of(x , y ) , 5.0 ,
+            4.0) ) ;
+    return new RegulatoryNetwork ( genes , simulationEvents , 0.01 , 20.0) ;
   }
 
 

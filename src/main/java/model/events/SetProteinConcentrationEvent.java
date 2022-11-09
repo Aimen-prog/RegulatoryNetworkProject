@@ -21,6 +21,7 @@ public class SetProteinConcentrationEvent extends AbstractSimulationEvent{
 
     @Override
     public String getInfo() {
-        return "SetProteinConcentrationEvent "+ newConcentration;
+        return "SetProteinConcentrationEvent "+ newConcentration + " "
+                + getGenes() + " " + getTime();
     }
 }

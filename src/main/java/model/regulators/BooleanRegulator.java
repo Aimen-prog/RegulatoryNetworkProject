@@ -21,6 +21,15 @@ public abstract class BooleanRegulator implements Regulator {
     }
     @Override
     public String getInfo() {
-        return null;
+        if (this.getClass().getName().equals("model.regulators.BooleanActivator")){
+            return "BooleanActivator "+ threshold +" " + gene.getName() ;
+        } else {return "BooleanRepressor "+ threshold +" " + gene.getName() ;}
     }
 }
+
+
+
+
+
+
+

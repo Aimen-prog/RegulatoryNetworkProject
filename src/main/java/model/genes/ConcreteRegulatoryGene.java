@@ -100,6 +100,9 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
         proteinConcentration = proteinConcentration+duration*(production()- degradation());
     }
 
-
+    public String getInfo(){
+        return "ConcreteRegulatoryGene "+ getName() +" "+ maximalProduction + " "+ degradationRate
+                + " "+ initialProteinConcentration+ " "+ isSignaled();
+    }
 
 }

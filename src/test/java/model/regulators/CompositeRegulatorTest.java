@@ -1,7 +1,6 @@
-package model.regulator;
+package model.regulators;
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.RegulatoryGene;
-import model.regulators.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
 import static java.util.Collections.max;
 import static java.util.Collections.min;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CompositeRegulatorTest {
 
