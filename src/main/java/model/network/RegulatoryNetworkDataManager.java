@@ -5,9 +5,7 @@ import model.events.SimulationEvent;
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.ConstantRegulatoryGene;
 import model.genes.RegulatoryGene;
-import model.regulators.AlwaysOnRegulator;
-import model.regulators.BooleanActivator;
-import model.regulators.BooleanRepressor;
+import model.regulators.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,6 +21,7 @@ public class RegulatoryNetworkDataManager {
     bufferedWriter.write("TimeUpperBound " + regulatoryNetwork.getTimeUpperBound() + "\n");
     writeGenes(bufferedWriter, regulatoryNetwork);
     writeEvents(bufferedWriter, regulatoryNetwork);
+
   }
 
   private static void writeEvents(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
@@ -44,16 +43,28 @@ public class RegulatoryNetworkDataManager {
 
   private static void writeGenes(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
     for(RegulatoryGene gene : regulatoryNetwork.getGenes()){
-      String geneString = gene.getClass().getSimpleName() + " ";
-      geneString += gene.getName() + " ";
-      geneString += gene.getInitialProteinConcentration() + " ";
-      geneString += gene.isSignaled() + "\n";
-      bufferedWriter.write(geneString);
+      String geneString = gene.getClass().getSimpleName() + " "; //class name
+      if (geneString.equals("ConcreteRegulatoryGene ")){
+        geneString += gene.getName() + " ";
+        geneString += gene.getMaximalProduction() + " ";
+        geneString += gene.getDegradationRate() + " ";
+        geneString += gene.getInitialProteinConcentration() + " ";
+        geneString += gene.isSignaled() + "\n";
+        bufferedWriter.write(geneString);
+      } else if (geneString.equals("ConstantRegulatoryGene ")) {
+        geneString += gene.getName() + " ";
+        geneString += gene.getInitialProteinConcentration() + " ";
+        geneString += gene.isSignaled() + "\n";
+        bufferedWriter.write(geneString);
+      }
     }
   }
 
+  //TODO writeRegulators method
+
   public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
     Map<String,RegulatoryGene> genes = new HashMap<>();
+    Map<String,Regulator> regulators = new HashMap<>(); //added
     List<SimulationEvent> events = new ArrayList<>();
 
     double timeUpperBound = 20;
@@ -67,11 +78,36 @@ public class RegulatoryNetworkDataManager {
         case "TimeStep" -> timeStepLength = Double.parseDouble(tokens[1]);
         case "TimeUpperBound" -> timeUpperBound = Double.parseDouble(tokens[1]);
         case "ConstantRegulatoryGene" -> readConstantRegulatoryGene(genes, tokens);
+        case "ConcreteRegulatoryGene" -> readConcreteRegulatoryGene(genes, tokens);
+        case "AlwaysOnRegulator" -> readAlwaysOnRegulator(regulators, tokens); // a changer
+
+
+//        case "BooleanRepressor" -> readConcreteRegulatoryGene(genes, tokens);
+//        case "BooleanActivator" -> readConcreteRegulatoryGene(genes, tokens);
         default -> throw new IOException("Parse error line " + lineNumber);
       }
       lineNumber++;
     }
     return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);
+  }
+
+
+  private static void readAlwaysOnRegulator(Map<String, Regulator> regulators, String[] tokens) {
+    String name = tokens[1];
+    regulators.put(name, new AlwaysOnRegulator());
+
+  }
+
+
+  private static void readConcreteRegulatoryGene(Map<String, RegulatoryGene> genes, String[] tokens) {
+    String name = tokens[1];
+    double maximalProduction = Double.parseDouble(tokens[2]);
+    double degradationRate = Double.parseDouble(tokens[3]);
+    double initialProteinConcentration = Double.parseDouble(tokens[4]);
+    boolean isSignaled = Boolean.parseBoolean(tokens[5]);
+    genes.put(name, new ConcreteRegulatoryGene(name,maximalProduction, degradationRate,
+            initialProteinConcentration, isSignaled));
+
   }
 
   private static void readConstantRegulatoryGene(Map<String, RegulatoryGene> genes, String[] tokens) {
@@ -81,24 +117,6 @@ public class RegulatoryNetworkDataManager {
     genes.put(name, new ConstantRegulatoryGene(name, concentration, isSignaled));
   }
 
-//  public RegulatoryNetwork generate() {
-//    List<RegulatoryGene> genes = new ArrayList<>();
-//    RegulatoryGene x = new ConstantRegulatoryGene("X", 3, true);
-//    genes.add(x);
-//    RegulatoryGene y = new ConstantRegulatoryGene("Y", 2, true);
-//    genes.add(y);
-//    RegulatoryGene z = new ConstantRegulatoryGene("Z", 4, false);
-//    genes.add(z);
-//
-//    RegulatoryGene reg = new ConcreteRegulatoryGene("INS",80, 0.9,
-//            50, true);
-//    reg.setProteinConcentration(reg.getInitialProteinConcentration());
-//    genes.add(reg);
-//
-//
-//    List<SimulationEvent> simulationEvents = new ArrayList<>();
-//    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
-//  }
 
   public RegulatoryNetwork generate () {
     List < RegulatoryGene > genes = new ArrayList <>() ;
@@ -119,4 +137,22 @@ public class RegulatoryNetworkDataManager {
   }
 
 
+//  public RegulatoryNetwork generate() {
+//    List<RegulatoryGene> genes = new ArrayList<>();
+//    RegulatoryGene x = new ConstantRegulatoryGene("X", 3, true);
+//    genes.add(x);
+//    RegulatoryGene y = new ConstantRegulatoryGene("Y", 2, true);
+//    genes.add(y);
+//    RegulatoryGene z = new ConstantRegulatoryGene("Z", 4, false);
+//    genes.add(z);
+//
+//    RegulatoryGene reg = new ConcreteRegulatoryGene("INS",80, 0.9,
+//            50, true);
+//    reg.setProteinConcentration(reg.getInitialProteinConcentration());
+//    genes.add(reg);
+//
+//
+//    List<SimulationEvent> simulationEvents = new ArrayList<>();
+//    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
+//  }
 }
