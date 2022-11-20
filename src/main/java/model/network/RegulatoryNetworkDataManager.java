@@ -10,10 +10,7 @@ import model.regulators.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RegulatoryNetworkDataManager {
   public void write(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
@@ -81,6 +78,7 @@ public class RegulatoryNetworkDataManager {
         case "AlwaysOnRegulator" -> readAlwaysOnRegulator(genes, tokens);
         case "BooleanActivator" -> readBooleanActivator(genes, tokens);
         case "BooleanRepressor" -> readBooleanRepressor(genes, tokens);
+        case "SetProteinConcentrationEvent" -> readSetProteinConcentrationEvent(events, tokens, genes);
 
         default -> throw new IOException("Parse error line " + lineNumber);
       }
@@ -88,6 +86,26 @@ public class RegulatoryNetworkDataManager {
     }
     return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);
   }
+
+  private static void readSetProteinConcentrationEvent(List<SimulationEvent> events , String[] tokens,
+                                                       Map<String,RegulatoryGene>  genes) {
+    double time = Double.parseDouble(tokens[1]);
+    double newConcentration = Double.parseDouble(tokens[3]);
+    // list of regulatory gene names
+    String gene_reg =  tokens[2];  // regulatory gene
+    String[] elements = gene_reg.split(",");
+    List<String> geneElements = Arrays.asList(elements);
+    // retrieve list of regulatory genes from names
+    List<RegulatoryGene> ggenes = new ArrayList<>();
+    for (String key: genes.keySet()) {
+      if(geneElements.contains(key)){
+        ggenes.add(genes.get(key));
+      }
+    }
+    // simulation
+    events.add ( new SetProteinConcentrationEvent ( ggenes, time , newConcentration) ) ;
+  }
+
 
   private static void readBooleanRepressor(Map<String,RegulatoryGene>  genes, String[] tokens) {
     String name = tokens[1];  // to be regulated
