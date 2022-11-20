@@ -60,11 +60,10 @@ public class RegulatoryNetworkDataManager {
     }
   }
 
-  //TODO writeRegulators method
 
   public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
     Map<String,RegulatoryGene> genes = new HashMap<>();
-    Map<String,Regulator> regulators = new HashMap<>(); //added
+
     List<SimulationEvent> events = new ArrayList<>();
 
     double timeUpperBound = 20;
@@ -79,11 +78,10 @@ public class RegulatoryNetworkDataManager {
         case "TimeUpperBound" -> timeUpperBound = Double.parseDouble(tokens[1]);
         case "ConstantRegulatoryGene" -> readConstantRegulatoryGene(genes, tokens);
         case "ConcreteRegulatoryGene" -> readConcreteRegulatoryGene(genes, tokens);
-        case "AlwaysOnRegulator" -> readAlwaysOnRegulator(regulators, tokens); // a changer
+        case "AlwaysOnRegulator" -> readAlwaysOnRegulator(genes, tokens);
+        case "BooleanActivator" -> readBooleanActivator(genes, tokens);
+        case "BooleanRepressor" -> readBooleanRepressor(genes, tokens);
 
-
-//        case "BooleanRepressor" -> readConcreteRegulatoryGene(genes, tokens);
-//        case "BooleanActivator" -> readConcreteRegulatoryGene(genes, tokens);
         default -> throw new IOException("Parse error line " + lineNumber);
       }
       lineNumber++;
@@ -91,10 +89,40 @@ public class RegulatoryNetworkDataManager {
     return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);
   }
 
+  private static void readBooleanRepressor(Map<String,RegulatoryGene>  genes, String[] tokens) {
+    String name = tokens[1];  // to be regulated
+    double threshold = Double.parseDouble(tokens[2]);
+    String name_regulator =  tokens[3];  // regulatory gene
 
-  private static void readAlwaysOnRegulator(Map<String, Regulator> regulators, String[] tokens) {
+    for (String key: genes.keySet()) {
+      if(key.equals(name_regulator)){
+        genes.get(name).setRegulator (new BooleanRepressor(threshold, genes.get(key)));
+      }
+    }
+
+  }
+
+  private static void readBooleanActivator(Map<String,RegulatoryGene>  genes, String[] tokens) {
+    String name = tokens[1];  // to be regulated
+    double threshold = Double.parseDouble(tokens[2]);
+    String name_regulator =  tokens[3];  // regulatory gene
+
+    for (String key: genes.keySet()) {
+      if(key.equals(name_regulator)){
+        genes.get(name).setRegulator (new BooleanActivator(threshold, genes.get(key)));
+      }
+    }
+
+  }
+
+
+  private static void readAlwaysOnRegulator(Map<String,RegulatoryGene>  genes, String[] tokens) {
     String name = tokens[1];
-    regulators.put(name, new AlwaysOnRegulator());
+    for (String key: genes.keySet()) {
+      if(key.equals(name)){
+        genes.get(key).setRegulator (new AlwaysOnRegulator());
+      }
+    }
 
   }
 
@@ -120,13 +148,13 @@ public class RegulatoryNetworkDataManager {
 
   public RegulatoryNetwork generate () {
     List < RegulatoryGene > genes = new ArrayList <>() ;
-    RegulatoryGene x = new ConcreteRegulatoryGene ( " X " , 3.0 , 0.1 , 2.0 , true ) ;
-    x.setRegulator ( new AlwaysOnRegulator() ) ;
+    RegulatoryGene x = new ConcreteRegulatoryGene (" X " , 3.0 , 0.1 , 2.0 , true ) ;
+    x.setRegulator (new AlwaysOnRegulator());
     genes.add(x) ;
-    RegulatoryGene y = new ConcreteRegulatoryGene ( " Y " , 4.0 , 0.12 , 2.0 , true ) ;
-    genes.add (y) ;
-    y . setRegulator ( new BooleanActivator(10 ,x )) ;
-    RegulatoryGene z = new ConcreteRegulatoryGene ( " Z " , 5.0 , 0.15 , 2.0 , true ) ;
+    RegulatoryGene y = new ConcreteRegulatoryGene (" Y " , 4.0 , 0.12 , 2.0 , true ) ;
+    genes.add(y) ;
+    y.setRegulator ( new BooleanActivator(10 ,x )) ;
+    RegulatoryGene z = new ConcreteRegulatoryGene (" Z " , 5.0 , 0.15 , 2.0 , true ) ;
     genes.add (z) ;
     z.setRegulator ( new BooleanRepressor(7 , y ) ) ;
     List < SimulationEvent > simulationEvents = new ArrayList <>() ;
@@ -135,6 +163,13 @@ public class RegulatoryNetworkDataManager {
             4.0) ) ;
     return new RegulatoryNetwork ( genes , simulationEvents , 0.01 , 20.0) ;
   }
+
+}
+
+
+
+
+
 
 
 //  public RegulatoryNetwork generate() {
@@ -155,4 +190,3 @@ public class RegulatoryNetworkDataManager {
 //    List<SimulationEvent> simulationEvents = new ArrayList<>();
 //    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
 //  }
-}
