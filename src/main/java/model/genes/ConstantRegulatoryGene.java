@@ -68,4 +68,5 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
   public double getDegradationRate() {
     return 0;
   }
+
 }

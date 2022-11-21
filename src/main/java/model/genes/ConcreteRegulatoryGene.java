@@ -101,7 +101,7 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
     }
 
     public String getInfo(){
-        return "ConcreteRegulatoryGene "+ getName() +" "+ maximalProduction + " "+ degradationRate
+        return getName() +" "+ maximalProduction + " "+ degradationRate
                 + " "+ initialProteinConcentration+ " "+ isSignaled();
     }
 

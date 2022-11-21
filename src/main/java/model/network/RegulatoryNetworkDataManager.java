@@ -1,6 +1,7 @@
 package model.network;
 
 import model.events.SetProteinConcentrationEvent;
+import model.events.SetSignaledEvent;
 import model.events.SimulationEvent;
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.ConstantRegulatoryGene;
@@ -23,15 +24,19 @@ public class RegulatoryNetworkDataManager {
 
   private static void writeEvents(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
     for(SimulationEvent event : regulatoryNetwork.getSimulationEvents()){
+      // add event name
       StringBuilder eventString = new StringBuilder(event.getClass().getSimpleName() + " ");
+      // append time to it
       eventString.append(event.getTime()).append(" ");
+      // append genes of the list separated with comma (no white spaces)
       List<RegulatoryGene> genes = event.getGenes();
       for(int index = 0; index < genes.size(); index++){
         if(index!=0) {
           eventString.append(",");
         }
-        eventString.append(genes.get(index));
+        eventString.append(genes.get(index).getName().replaceAll("\\s+","") );
       }
+      // append event
       eventString.append(" ");
       eventString.append(event.getInfo()).append("\n");
       bufferedWriter.write(eventString.toString());
@@ -40,14 +45,26 @@ public class RegulatoryNetworkDataManager {
 
   private static void writeGenes(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
     for(RegulatoryGene gene : regulatoryNetwork.getGenes()){
-      String geneString = gene.getClass().getSimpleName() + " "; //class name
+      String geneString = gene.getClass().getSimpleName()+ " "; //class name
       if (geneString.equals("ConcreteRegulatoryGene ")){
-        geneString += gene.getName() + " ";
-        geneString += gene.getMaximalProduction() + " ";
+        geneString += gene.getName()+ " ";
+        geneString += gene.getMaximalProduction()+ " ";
         geneString += gene.getDegradationRate() + " ";
         geneString += gene.getInitialProteinConcentration() + " ";
-        geneString += gene.isSignaled() + "\n";
+        geneString += gene.isSignaled()+ "\n";
+        //if no regulator for considerate gene
+        if ( gene.getRegulator() == null) {geneString +="";}
+        // regulator available for the gene append its info
+        if ( gene.getRegulator() != null && gene.getRegulator().getInfo() != null) {
+          geneString += gene.getRegulator().getClass().getSimpleName() + " "+ gene.getName() + " "+ gene.getRegulator().getInfo() + "\n";
+        }
+        // avoid writing 'null' for alwaysOnRegulator
+        if ( gene.getRegulator() != null && gene.getRegulator().getInfo() == null)  {
+          geneString += gene.getRegulator().getClass().getSimpleName() + " "+ gene.getName() + "\n";
+        }
+        // write
         bufferedWriter.write(geneString);
+
       } else if (geneString.equals("ConstantRegulatoryGene ")) {
         geneString += gene.getName() + " ";
         geneString += gene.getInitialProteinConcentration() + " ";
@@ -60,7 +77,6 @@ public class RegulatoryNetworkDataManager {
 
   public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
     Map<String,RegulatoryGene> genes = new HashMap<>();
-
     List<SimulationEvent> events = new ArrayList<>();
 
     double timeUpperBound = 20;
@@ -79,13 +95,33 @@ public class RegulatoryNetworkDataManager {
         case "BooleanActivator" -> readBooleanActivator(genes, tokens);
         case "BooleanRepressor" -> readBooleanRepressor(genes, tokens);
         case "SetProteinConcentrationEvent" -> readSetProteinConcentrationEvent(events, tokens, genes);
-
+        case "SetSignaledEvent" -> readSetSignaledEvent(events, tokens, genes);
         default -> throw new IOException("Parse error line " + lineNumber);
       }
       lineNumber++;
     }
     return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);
   }
+
+  private static void readSetSignaledEvent(List<SimulationEvent> events , String[] tokens,
+                                                       Map<String,RegulatoryGene>  genes) {
+    double time = Double.parseDouble(tokens[1]);
+    boolean newSignaledValue = Boolean.parseBoolean(tokens[3]);
+    // list of regulatory gene names
+    String gene_reg =  tokens[2];
+    String[] elements = gene_reg.split(",");
+    List<String> geneElements = Arrays.asList(elements);
+    // retrieve list of regulatory genes from names
+    List<RegulatoryGene> genes_list = new ArrayList<>();
+    for (String key: genes.keySet()) {
+      if(geneElements.contains(key)){
+        genes_list.add(genes.get(key));
+      }
+    }
+    // add the event after reading all necessary three elements
+    events.add ( new SetSignaledEvent( genes_list, time , newSignaledValue) ) ;
+  }
+
 
   private static void readSetProteinConcentrationEvent(List<SimulationEvent> events , String[] tokens,
                                                        Map<String,RegulatoryGene>  genes) {
@@ -96,14 +132,14 @@ public class RegulatoryNetworkDataManager {
     String[] elements = gene_reg.split(",");
     List<String> geneElements = Arrays.asList(elements);
     // retrieve list of regulatory genes from names
-    List<RegulatoryGene> ggenes = new ArrayList<>();
+    List<RegulatoryGene> genes_list = new ArrayList<>();
     for (String key: genes.keySet()) {
       if(geneElements.contains(key)){
-        ggenes.add(genes.get(key));
+        genes_list.add(genes.get(key));
       }
     }
-    // simulation
-    events.add ( new SetProteinConcentrationEvent ( ggenes, time , newConcentration) ) ;
+    // add the event after reading all three elements
+    events.add ( new SetProteinConcentrationEvent ( genes_list, time , newConcentration) ) ;
   }
 
 
@@ -111,7 +147,6 @@ public class RegulatoryNetworkDataManager {
     String name = tokens[1];  // to be regulated
     double threshold = Double.parseDouble(tokens[2]);
     String name_regulator =  tokens[3];  // regulatory gene
-
     for (String key: genes.keySet()) {
       if(key.equals(name_regulator)){
         genes.get(name).setRegulator (new BooleanRepressor(threshold, genes.get(key)));
@@ -166,13 +201,13 @@ public class RegulatoryNetworkDataManager {
 
   public RegulatoryNetwork generate () {
     List < RegulatoryGene > genes = new ArrayList <>() ;
-    RegulatoryGene x = new ConcreteRegulatoryGene (" X " , 3.0 , 0.1 , 2.0 , true ) ;
+    RegulatoryGene x = new ConcreteRegulatoryGene ("X" , 3.0 , 0.1 , 2.0 , true ) ;
     x.setRegulator (new AlwaysOnRegulator());
     genes.add(x) ;
-    RegulatoryGene y = new ConcreteRegulatoryGene (" Y " , 4.0 , 0.12 , 2.0 , true ) ;
+    RegulatoryGene y = new ConcreteRegulatoryGene ("Y" , 4.0 , 0.12 , 2.0 , true ) ;
     genes.add(y) ;
     y.setRegulator ( new BooleanActivator(10 ,x )) ;
-    RegulatoryGene z = new ConcreteRegulatoryGene (" Z " , 5.0 , 0.15 , 2.0 , true ) ;
+    RegulatoryGene z = new ConcreteRegulatoryGene ("Z" , 5.0 , 0.15 , 2.0 , true ) ;
     genes.add (z) ;
     z.setRegulator ( new BooleanRepressor(7 , y ) ) ;
     List < SimulationEvent > simulationEvents = new ArrayList <>() ;
@@ -183,11 +218,6 @@ public class RegulatoryNetworkDataManager {
   }
 
 }
-
-
-
-
-
 
 
 //  public RegulatoryNetwork generate() {
@@ -208,3 +238,6 @@ public class RegulatoryNetworkDataManager {
 //    List<SimulationEvent> simulationEvents = new ArrayList<>();
 //    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
 //  }
+
+
+

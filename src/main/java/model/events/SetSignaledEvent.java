@@ -21,7 +21,6 @@ public class SetSignaledEvent extends AbstractSimulationEvent {
 
     @Override
     public String getInfo() {
-        return "SetSignaledEvent "+ newSignaledValue + " "
-                + getGenes() + " " + getTime();
+        return String.valueOf(newSignaledValue);
     }
 }

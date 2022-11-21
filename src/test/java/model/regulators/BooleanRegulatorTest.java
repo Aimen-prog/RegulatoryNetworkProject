@@ -15,6 +15,6 @@ public class BooleanRegulatorTest {
         RegulatoryGene gene = new ConcreteRegulatoryGene("INS",80, 0.9,
                 50, false);
         BooleanRegulator reg2 = new BooleanActivator(14,gene);
-        assertThat(reg2.getInfo()).startsWith("BooleanActivator"); //.endsWith("S");
+        assertThat(reg2.getInfo()).startsWith("14.0 INS"); //.endsWith("S");
     }
 }
