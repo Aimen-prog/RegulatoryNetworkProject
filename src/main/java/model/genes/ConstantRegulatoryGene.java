@@ -1,5 +1,6 @@
 package model.genes;
 
+import model.file.writer.GeneVisitor;
 import model.regulators.Regulator;
 
 public class ConstantRegulatoryGene implements RegulatoryGene{
@@ -69,4 +70,7 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
     return 0;
   }
 
+  public String accept(GeneVisitor visitor ){
+    return visitor.visit(this);
+  }
 }

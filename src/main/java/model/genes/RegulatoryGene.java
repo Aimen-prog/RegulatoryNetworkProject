@@ -1,5 +1,6 @@
 package model.genes;
 
+import model.file.writer.GeneVisitor;
 import model.regulators.Regulator;
 
 public interface RegulatoryGene extends Gene{
@@ -7,4 +8,6 @@ public interface RegulatoryGene extends Gene{
   void setRegulator(Regulator regulator);
   boolean isSignaled();
   void setSignaled(boolean isSignaled);
+
+  String accept(GeneVisitor visitor);
 }

@@ -1,5 +1,6 @@
 package model.genes;
 
+import model.file.writer.GeneVisitor;
 import model.regulators.AlwaysOnRegulator;
 import model.regulators.Regulator;
 
@@ -101,8 +102,12 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
     }
 
     public String getInfo(){
-        return getName() +" "+ maximalProduction + " "+ degradationRate
-                + " "+ initialProteinConcentration+ " "+ isSignaled();
+        return getName() +" "+ getMaximalProduction() + " "+ getDegradationRate()
+                + " "+ getInitialProteinConcentration()+ " "+ isSignaled();
+    }
+
+    public String accept(GeneVisitor visitor ){
+        return visitor.visit(this);
     }
 
 }
