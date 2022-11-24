@@ -1,4 +1,4 @@
-package model.network;
+package model.file.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

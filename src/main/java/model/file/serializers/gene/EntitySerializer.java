@@ -1,7 +1,7 @@
 package model.file.serializers.gene;
 
-import model.network.RegulatoryNetworkReader;
-import model.network.RegulatoryNetworkWriter;
+import model.file.reader.RegulatoryNetworkReader;
+import model.file.writer.RegulatoryNetworkWriter;
 
 public interface EntitySerializer<E> {
     String getCode () ;

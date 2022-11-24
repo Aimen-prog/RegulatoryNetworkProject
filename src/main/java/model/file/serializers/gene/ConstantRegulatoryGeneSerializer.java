@@ -1,15 +1,13 @@
 package model.file.serializers.gene;
 
 import model.genes.ConstantRegulatoryGene;
-import model.network.RegulatoryNetworkReader;
-import model.network.RegulatoryNetworkWriter;
+import model.file.reader.RegulatoryNetworkReader;
+import model.file.writer.RegulatoryNetworkWriter;
 
 public class ConstantRegulatoryGeneSerializer implements EntitySerializer<ConstantRegulatoryGene> {
-    private ConstantRegulatoryGeneSerializer instance;
+    private static ConstantRegulatoryGeneSerializer instance;
 
-    private void ConstantRegulatoryGeneSerializer(){
-
-    }
+    private static void ConstantRegulatoryGeneSerializer(){}
     @Override
     public String getCode() {
         return null;
@@ -25,7 +23,10 @@ public class ConstantRegulatoryGeneSerializer implements EntitySerializer<Consta
         return null;
     }
 
-    public ConstantRegulatoryGeneSerializer getInstance(){
+    public static ConstantRegulatoryGeneSerializer getInstance(){
+        if (instance == null) {
+            instance = new ConstantRegulatoryGeneSerializer();
+        }
         return instance;
     }
 }
