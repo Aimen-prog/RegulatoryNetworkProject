@@ -23,7 +23,6 @@ public class RegulatoryNetworkReader {
     private Map<String, EntitySerializer <? extends SimulationEvent>> eventSerializers = new HashMap<>();
     private List<SimulationEvent> events = new ArrayList<>();;
 
-
     public void RegulatoryNetworkReader(){}
 
 
