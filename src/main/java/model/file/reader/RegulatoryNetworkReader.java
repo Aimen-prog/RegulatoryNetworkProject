@@ -43,29 +43,27 @@ public class RegulatoryNetworkReader {
 
     public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
         genes =  new HashMap<>();
-        double timeUpperBound = 20;
-        double timeStepLength = 0.01;
+        double timeUpperBound = 20; double timeStepLength = 0.01;
+        int lineNumber = 0;
+
         for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()){
             String[] tokens = line.split(" ");
-            if (tokens[0].equals("TimeStep")) {timeStepLength = Double.parseDouble(tokens[1]);}
-            if (tokens[0].equals( "TimeUpperBound")){timeUpperBound = Double.parseDouble(tokens[1]);}
-            if (tokens[0].equals("ConcreteRegulatoryGene")) {
-                addGeneSerializer(ConcreteRegulatoryGeneSerializer.getInstance());
-                addGene(ConcreteRegulatoryGeneSerializer.getInstance().deserialize(line,this));}
-            if (tokens[0].equals("ConstantRegulatoryGene")) {
-                addGeneSerializer(ConcreteRegulatoryGeneSerializer.getInstance());
-                addGene(ConstantRegulatoryGeneSerializer.getInstance().deserialize(line,this));
-            }
-            if (tokens[0].equals("SetSignaledEvent")){
-                events.add(SetSignaledEventSerializer.getInstance().deserialize(line,this));
-            }
-            if (tokens[0].equals("SetProteinConcentrationEvent")){
-                events.add(SetProteinConcentrationEventSerializer.getInstance().deserialize(line,this));
+            switch (tokens[0]){
+                case "TimeStep" -> timeStepLength = Double.parseDouble(tokens[1]);
+                case "TimeUpperBound" -> timeUpperBound = Double.parseDouble(tokens[1]);
+                case "ConstantRegulatoryGene" -> {
+                    addGeneSerializer(ConstantRegulatoryGeneSerializer.getInstance());
+                    addGene(ConstantRegulatoryGeneSerializer.getInstance().deserialize(line,this));
+                }
+                case "ConcreteRegulatoryGene" -> {
+                    addGeneSerializer(ConcreteRegulatoryGeneSerializer.getInstance());
+                    addGene(ConcreteRegulatoryGeneSerializer.getInstance().deserialize(line,this));
+                }
+                case "SetProteinConcentrationEvent" -> events.add(SetProteinConcentrationEventSerializer.getInstance().deserialize(line,this));
+                case "SetSignaledEvent" -> events.add(SetSignaledEventSerializer.getInstance().deserialize(line,this));
+                default -> throw new IOException("Parse error line " + lineNumber);
             }
         }
         return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);
     }
-
-
-
 }

@@ -22,7 +22,7 @@ public class ListGeneSerializer implements EntitySerializer<List<RegulatoryGene>
         for(int index = 0; index < entity.size(); index++){
             string += entity.get(index).getName() + ",";
         }
-        //replce last comma with a closing bracket
+        //replace last comma with a closing bracket
         string = string.replaceAll(",$","]");
         return string;
     }
