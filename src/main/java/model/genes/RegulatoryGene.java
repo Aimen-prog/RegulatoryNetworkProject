@@ -8,6 +8,7 @@ public interface RegulatoryGene extends Gene{
   void setRegulator(Regulator regulator);
   boolean isSignaled();
   void setSignaled(boolean isSignaled);
+  boolean getInitialIsSignaled();
 
   String accept(GeneVisitor visitor);
 }

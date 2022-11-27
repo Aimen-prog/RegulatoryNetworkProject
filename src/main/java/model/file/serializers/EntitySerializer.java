@@ -1,4 +1,4 @@
-package model.file.serializers.gene;
+package model.file.serializers;
 
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.writer.RegulatoryNetworkWriter;

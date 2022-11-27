@@ -1,8 +1,10 @@
 package model.file.serializers.gene;
 
+import model.file.serializers.EntitySerializer;
 import model.genes.ConcreteRegulatoryGene;
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.writer.RegulatoryNetworkWriter;
+
 
 public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<ConcreteRegulatoryGene> {
     private static ConcreteRegulatoryGeneSerializer instance;
@@ -10,16 +12,17 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
     // default private constructor
     private static void ConcreteRegulatoryGeneSerializer(){}
 
-    //class name of object to be (de)serialised ( needed for the reader )
+
+    //class name of object to be (de)serialised
     @Override
     public String getCode() {
-        return getInstance().getClass().getSimpleName(); //to be changed
+        return "ConcreteRegulatoryGene";
     }
 
     //return string describing serializable object
     @Override
     public String serialize(ConcreteRegulatoryGene entity, RegulatoryNetworkWriter writer) {
-        return entity.getClass().getSimpleName() + " " + entity.getInfo();
+        return getCode() + " " + entity.getInfo();
     }
 
     // get the singleton
@@ -30,12 +33,15 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
         return instance;
     }
 
-
     //rebuild an object from a string
     @Override
     public ConcreteRegulatoryGene deserialize(String string, RegulatoryNetworkReader reader) {
-
-        return null;
+        String[] tokens = string.split(" ");
+        return new ConcreteRegulatoryGene(tokens[1],
+                                            Double.parseDouble(tokens[2]),
+                                                    Double.parseDouble(tokens[3]),
+                                                        Double.parseDouble(tokens[4]),
+                                                                Boolean.parseBoolean(tokens[5]));
     }
 
 

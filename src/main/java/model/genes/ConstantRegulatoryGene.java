@@ -8,12 +8,14 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
   private final double initialProteinConcentration;
   private final String name;
   private boolean isSignaled;
+  private boolean initialIsSignaled;
 
   public ConstantRegulatoryGene(String name, double proteinConcentration, boolean isSignaled) {
     this.proteinConcentration = proteinConcentration;
     this.initialProteinConcentration = proteinConcentration;
     this.name = name;
     this.isSignaled = isSignaled;
+    this.initialIsSignaled = isSignaled;
   }
 
   @Override
@@ -70,7 +72,15 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
     return 0;
   }
 
+  public String getInfo(){
+    return getName() +" "+ getInitialProteinConcentration()+ " "+ isSignaled();
+  }
+
   public String accept(GeneVisitor visitor ){
     return visitor.visit(this);
   }
+
+  public boolean getInitialIsSignaled(){ return initialIsSignaled;}
+
+
 }

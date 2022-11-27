@@ -5,6 +5,7 @@ import javafx.stage.FileChooser;
 import model.network.RegulatoryNetwork;
 import model.network.RegulatoryNetworkDataManager;
 import model.file.writer.RegulatoryNetworkWriter;
+import model.file.reader.RegulatoryNetworkReader;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -17,6 +18,7 @@ public class MainAppController {
 
   private final RegulatoryNetworkDataManager regulatoryNetworkDataManager = new RegulatoryNetworkDataManager();
   private final RegulatoryNetworkWriter regulatoryNetworkWriter = new RegulatoryNetworkWriter();
+  private final RegulatoryNetworkReader regulatoryNetworkReader = new RegulatoryNetworkReader();
 
   private RegulatoryNetwork regulatoryNetwork =
           new RegulatoryNetwork(new ArrayList<>(), new ArrayList<>(), 0.001, 20);
@@ -42,7 +44,7 @@ public class MainAppController {
     if (file != null) {
       try {
         BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_16);
-        regulatoryNetwork = regulatoryNetworkDataManager.read(bufferedReader);
+        regulatoryNetwork = regulatoryNetworkReader.read(bufferedReader); //regulatoryNetworkDataManager
         plot(regulatoryNetwork);
         bufferedReader.close();
       }

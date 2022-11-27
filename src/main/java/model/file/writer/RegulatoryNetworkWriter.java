@@ -11,6 +11,7 @@ import java.util.List;
 public class RegulatoryNetworkWriter {
 
     private GeneVisitor geneVisitor = new ConcreteGeneVisitor(this);
+    private EventVisitor eventVisitor = new ConcreteEventVisitor(this);
 
     // METHOD section
     public RegulatoryNetworkWriter(){}
@@ -18,10 +19,11 @@ public class RegulatoryNetworkWriter {
     public void write(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
         writeConfiguration(bufferedWriter, regulatoryNetwork);
         writeGenes(bufferedWriter, regulatoryNetwork);
+        writeEvents(bufferedWriter, regulatoryNetwork);
 
     }
 
-    // écrire les gènes en utilisant le visiteur geneVisitor
+    // write genes using geneVisitor
     private void writeGenes(BufferedWriter bufferedWriter,RegulatoryNetwork regulatoryNetwork) throws IOException {
         for(RegulatoryGene gene : regulatoryNetwork.getGenes()){
             String geneString = gene.accept(geneVisitor);
@@ -30,6 +32,17 @@ public class RegulatoryNetworkWriter {
 
         }
     }
+
+    // write events using geneVisitor
+    private void writeEvents(BufferedWriter bufferedWriter,RegulatoryNetwork regulatoryNetwork) throws IOException {
+        for(SimulationEvent event : regulatoryNetwork.getSimulationEvents()){
+            String eventString = event.accept(eventVisitor);
+            eventString += "\n";
+            bufferedWriter.write(eventString);
+
+        }
+    }
+
 
 
     // write TimeStep and TimeUpperBound

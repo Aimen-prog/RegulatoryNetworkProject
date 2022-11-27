@@ -1,5 +1,6 @@
 package model.events;
 
+import model.file.writer.EventVisitor;
 import model.genes.RegulatoryGene;
 
 import java.util.List;
@@ -23,4 +24,11 @@ public class SetProteinConcentrationEvent extends AbstractSimulationEvent{
     public String getInfo() {
         return String.valueOf(newConcentration);
     }
+
+    public String accept(EventVisitor eventVisitor ){
+        return eventVisitor.visit(this);
+    }
+
+
+
 }

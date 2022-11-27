@@ -1,5 +1,6 @@
 package model.file.serializers.gene;
 
+import model.file.serializers.EntitySerializer;
 import model.genes.ConstantRegulatoryGene;
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.writer.RegulatoryNetworkWriter;
@@ -10,18 +11,22 @@ public class ConstantRegulatoryGeneSerializer implements EntitySerializer<Consta
     private static void ConstantRegulatoryGeneSerializer(){}
     @Override
     public String getCode() {
-        return null;
+        return "ConstantRegulatoryGene";
     }
 
     @Override
     public String serialize(ConstantRegulatoryGene entity, RegulatoryNetworkWriter writer) {
-        return null;
+        return getCode() + " " + entity.getInfo();
     }
 
     @Override
     public ConstantRegulatoryGene deserialize(String string, RegulatoryNetworkReader reader) {
-        return null;
+        String[] tokens = string.split(" ");
+        return new ConstantRegulatoryGene(tokens[1],
+                Double.parseDouble(tokens[2]),
+                Boolean.parseBoolean(tokens[3]));
     }
+
 
     public static ConstantRegulatoryGeneSerializer getInstance(){
         if (instance == null) {
@@ -29,4 +34,6 @@ public class ConstantRegulatoryGeneSerializer implements EntitySerializer<Consta
         }
         return instance;
     }
+
+
 }

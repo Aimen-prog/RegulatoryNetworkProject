@@ -12,6 +12,7 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
     private double degradationRate;
     private String name;
     private boolean isSignaled;
+    private boolean initialIsSignaled;
 
 
     public ConcreteRegulatoryGene(String name, double maximalProduction, double degradationRate,
@@ -21,6 +22,7 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
         this.degradationRate = degradationRate;
         this.name = name;
         this.isSignaled = isSignaled;
+        this.initialIsSignaled = isSignaled;
     }
 
     @Override
@@ -109,5 +111,7 @@ public class ConcreteRegulatoryGene implements RegulatoryGene {
     public String accept(GeneVisitor visitor ){
         return visitor.visit(this);
     }
+
+    public boolean getInitialIsSignaled(){ return initialIsSignaled;}
 
 }
