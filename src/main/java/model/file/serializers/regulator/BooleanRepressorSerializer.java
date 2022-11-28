@@ -11,13 +11,6 @@ public class BooleanRepressorSerializer implements EntitySerializer<BooleanRepre
 
     private static void BooleanRepressorSerializer(){}
 
-    public static BooleanRepressorSerializer getInstance(){
-        if (instance == null) {
-            instance = new BooleanRepressorSerializer();
-        }
-        return instance;
-    }
-
     @Override
     public String getCode() {
         return "BooleanRepressor";
@@ -31,5 +24,12 @@ public class BooleanRepressorSerializer implements EntitySerializer<BooleanRepre
     @Override
     public BooleanRepressor deserialize(String string, RegulatoryNetworkReader reader) {
         return null;
+    }
+
+    public static BooleanRepressorSerializer getInstance(){
+        if (instance == null) {
+            instance = new BooleanRepressorSerializer();
+        }
+        return instance;
     }
 }

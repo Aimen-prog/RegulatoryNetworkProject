@@ -8,7 +8,7 @@ import model.file.writer.RegulatoryNetworkWriter;
 public class ConstantRegulatoryGeneSerializer implements EntitySerializer<ConstantRegulatoryGene> {
     private static ConstantRegulatoryGeneSerializer instance;
 
-    private static void ConstantRegulatoryGeneSerializer(){}
+    private ConstantRegulatoryGeneSerializer(){}
     @Override
     public String getCode() {
         return "ConstantRegulatoryGene";
@@ -16,7 +16,8 @@ public class ConstantRegulatoryGeneSerializer implements EntitySerializer<Consta
 
     @Override
     public String serialize(ConstantRegulatoryGene entity, RegulatoryNetworkWriter writer) {
-        return getCode() + " " + entity.getInfo();
+        return getCode() + " " +  entity.getName() +" "+ entity.getInitialProteinConcentration()
+                + " "+ entity.getInitialIsSignaled();
     }
 
     @Override

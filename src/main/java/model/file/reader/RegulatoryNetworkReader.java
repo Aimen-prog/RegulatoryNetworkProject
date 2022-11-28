@@ -28,11 +28,11 @@ public class RegulatoryNetworkReader {
     private Map<String, RegulatoryGene> genes ;
     //events
     private Map<String, EntitySerializer <? extends SimulationEvent>> eventSerializers = new HashMap<>();
-    private List<SimulationEvent> events = new ArrayList<>();
+    private List<SimulationEvent> events ;
     //regulators
     private Map<String, EntitySerializer <? extends Regulator>> regulatorSerializers = new HashMap<>();
 
-    public void RegulatoryNetworkReader(){
+    public RegulatoryNetworkReader(){
         addGeneSerializer(ConstantRegulatoryGeneSerializer.getInstance());
         addGeneSerializer(ConcreteRegulatoryGeneSerializer.getInstance());
         addEventSerializer(SetProteinConcentrationEventSerializer.getInstance());
@@ -42,7 +42,6 @@ public class RegulatoryNetworkReader {
     }
 
 
-    ////////////////////////////////*********//////////////////////////////////////
     private void addGeneSerializer(EntitySerializer<? extends RegulatoryGene> serializer ){
         geneSerializers.put(serializer.getCode(), serializer);
     }
@@ -57,14 +56,16 @@ public class RegulatoryNetworkReader {
         return eventSerializers.get(code);
     }
 
+    ///
+
     private void addRegulatorSerializer( EntitySerializer <? extends Regulator> serializer){
         regulatorSerializers.put(serializer.getCode(), serializer);
     }
     private EntitySerializer <? extends Regulator> getRegulatorSerializer(String code){
         return regulatorSerializers.get(code);
     }
-    ////////////////////////////////*********//////////////////////////////////////
 
+    ////
     public void addGene(RegulatoryGene gene){
         genes.put(gene.getName(),gene);
     }
@@ -72,56 +73,23 @@ public class RegulatoryNetworkReader {
         return genes.get(geneName);
     }
 
-//TODO: Resolve read with default to take in account the regulator
+
     public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
         genes =  new HashMap<>();
+        events = new ArrayList<>();
         double timeUpperBound = 20; double timeStepLength = 0.01;
         for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()){
             String[] tokens = line.split(" ");
             switch (tokens[0]){
                 case "TimeStep" -> timeStepLength = Double.parseDouble(tokens[1]);
                 case "TimeUpperBound" -> timeUpperBound = Double.parseDouble(tokens[1]);
-                case "ConstantRegulatoryGene" ->
-                        addGene(ConstantRegulatoryGeneSerializer.getInstance().deserialize(line,this));
-                case "ConcreteRegulatoryGene" ->
-                        addGene(ConcreteRegulatoryGeneSerializer.getInstance().deserialize(line,this));
-                case "SetProteinConcentrationEvent" ->
-                        events.add(SetProteinConcentrationEventSerializer.getInstance().deserialize(line,this));
-                case "SetSignaledEvent" ->
-                        events.add(SetSignaledEventSerializer.getInstance().deserialize(line,this));
+                case "ConstantRegulatoryGene", "ConcreteRegulatoryGene" ->
+                        addGene(getGeneSerializer(tokens[0]).deserialize(line,this));
+                case "SetProteinConcentrationEvent", "SetSignaledEvent" ->
+                    events.add(getEventSerializer(tokens[0]).deserialize(line, this));
+                default -> getRegulatorSerializer(tokens[1]).deserialize(line,this);
             }
         }
         return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);
     }
 }
-
-
-
-
-
-
-
-//            if (tokens[0].equals("ConstantRegulatoryGene")){
-//                    addGene(ConstantRegulatoryGeneSerializer.getInstance().deserialize(line,this));}
-//                    if (tokens[0].equals("ConcreteRegulatoryGene")){
-//                    addGene(ConcreteRegulatoryGeneSerializer.getInstance().deserialize(line,this));
-//                    }
-//                    if (tokens[0].equals("SetProteinConcentrationEvent")){
-//                    events.add(SetProteinConcentrationEventSerializer.getInstance().deserialize(line,this));
-//                    }
-//                    if (tokens[0].equals("SetSignaledEvent")){
-//                    events.add(SetSignaledEventSerializer.getInstance().deserialize(line,this));
-//                    } if (tokens[1].equals("AlwaysOnRegulator")){
-//                    AlwaysOnRegulatorSerializer.getInstance().deserialize(line,this);
-//                    }
-
-
-//        for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()){
-//                String[] tokens = line.split(" ");
-//                if (tokens[0].equals("TimeStep")) { timeStepLength = Double.parseDouble(tokens[1]); }
-//                if (tokens[0].equals("TimeUpperBound")){timeUpperBound = Double.parseDouble(tokens[1]);}
-//                addGene(getGeneSerializer(tokens[0]).deserialize(line,this));
-//                events.add(getEventSerializer(tokens[0]).deserialize(line,this));
-//                getRegulatorSerializer(tokens[0]).deserialize(line,this);
-//
-//                }

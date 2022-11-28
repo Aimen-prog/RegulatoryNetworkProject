@@ -48,10 +48,15 @@ public class RegulatoryNetworkWriter {
 
     private void writeRegulators(BufferedWriter bufferedWriter,RegulatoryNetwork regulatoryNetwork) throws IOException {
         for(RegulatoryGene gene : regulatoryNetwork.getGenes()){
-//            String geneToBeReg = gene.accept(geneVisitor);
-//            String regulatorString = gene.getRegulator().accept(regulatorVisitor);
-//            String regulation = geneToBeReg + " "+ regulatorString +"\n";
-            bufferedWriter.write(gene.getName());
+            String regulatorString ="";
+            if ( gene.getRegulator() != null && gene.getRegulator().getInfo() != null) {
+                regulatorString += gene.getName() + " " + gene.getRegulator().getClass().getSimpleName();
+            }
+            // for alwaysOn/OffRegulator
+            if ( gene.getRegulator() != null && gene.getRegulator().getInfo() == null)  {
+                regulatorString += gene.getName() + " " + gene.getRegulator().getClass().getSimpleName()+ "\n";
+            }
+            bufferedWriter.write(regulatorString);
         }
     }
 

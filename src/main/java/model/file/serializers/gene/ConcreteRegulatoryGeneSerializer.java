@@ -10,7 +10,7 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
     private static ConcreteRegulatoryGeneSerializer instance;
     //Singleton: only one object copy exists
     // default private constructor
-    private static void ConcreteRegulatoryGeneSerializer(){}
+    private ConcreteRegulatoryGeneSerializer(){}
 
 
     //class name of object to be (de)serialised
@@ -21,10 +21,10 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
 
     //return string describing serializable object
 
-    //TODO: getINfo to be changed by getinitial with constant selializer also!!!
     @Override
     public String serialize(ConcreteRegulatoryGene entity, RegulatoryNetworkWriter writer) {
-        return getCode() + " " + entity.getInfo();
+        return getCode() + " "  + entity.getName() + " "  + entity.getMaximalProduction() + " "+ entity.getDegradationRate()
+                + " "+ entity.getInitialProteinConcentration()+ " "+ entity.getInitialIsSignaled();
 
     }
 

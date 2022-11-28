@@ -12,12 +12,7 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
 
     private static void BooleanActivatorSerializer(){}
 
-    public static BooleanActivatorSerializer getInstance(){
-        if (instance == null) {
-            instance = new BooleanActivatorSerializer();
-        }
-        return instance;
-    }
+
 
     @Override
     public String getCode() {
@@ -26,11 +21,20 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
 
     @Override
     public String serialize(BooleanActivator entity, RegulatoryNetworkWriter writer) {
+
         return null;
     }
 
     @Override
     public BooleanActivator deserialize(String string, RegulatoryNetworkReader reader) {
+
         return null;
+    }
+
+    public static BooleanActivatorSerializer getInstance(){
+        if (instance == null) {
+            instance = new BooleanActivatorSerializer();
+        }
+        return instance;
     }
 }

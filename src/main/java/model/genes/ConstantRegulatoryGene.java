@@ -72,9 +72,6 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
     return 0;
   }
 
-  public String getInfo(){
-    return getName() +" "+ getInitialProteinConcentration()+ " "+ isSignaled();
-  }
 
   public String accept(GeneVisitor visitor ){
     return visitor.visit(this);

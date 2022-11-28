@@ -11,14 +11,7 @@ public class AlwaysOffRegulatorSerializer implements EntitySerializer<AlwaysOffR
 
     private static AlwaysOffRegulatorSerializer instance;
 
-    private static void AlwaysOffRegulatorSerializer(){}
-
-    public static AlwaysOffRegulatorSerializer getInstance(){
-        if (instance == null) {
-            instance = new AlwaysOffRegulatorSerializer();
-        }
-        return instance;
-    }
+    private AlwaysOffRegulatorSerializer(){}
 
     @Override
     public String getCode() {
@@ -34,6 +27,13 @@ public class AlwaysOffRegulatorSerializer implements EntitySerializer<AlwaysOffR
     public AlwaysOffRegulator deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
         reader.getGene(tokens[0]).setRegulator (new AlwaysOffRegulator());
-        return new AlwaysOffRegulator();
+        return (AlwaysOffRegulator) reader.getGene(tokens[0]).getRegulator();
+    }
+
+    public static AlwaysOffRegulatorSerializer getInstance(){
+        if (instance == null) {
+            instance = new AlwaysOffRegulatorSerializer();
+        }
+        return instance;
     }
 }

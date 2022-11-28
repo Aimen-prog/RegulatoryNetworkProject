@@ -11,20 +11,13 @@ public class AlwaysOnRegulatorSerializer implements EntitySerializer<AlwaysOnReg
 
     private static AlwaysOnRegulatorSerializer instance;
 
-    private static void AlwaysOnRegulatorSerializer(){}
-
-    public static AlwaysOnRegulatorSerializer getInstance(){
-        if (instance == null) {
-            instance = new AlwaysOnRegulatorSerializer();
-        }
-        return instance;
-    }
-
+    private AlwaysOnRegulatorSerializer(){}
 
     @Override
     public String getCode() {
         return "AlwaysOnRegulator";
     }
+
 
     @Override
     public String serialize(AlwaysOnRegulator entity, RegulatoryNetworkWriter writer) {
@@ -35,6 +28,13 @@ public class AlwaysOnRegulatorSerializer implements EntitySerializer<AlwaysOnReg
     public AlwaysOnRegulator deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
         reader.getGene(tokens[0]).setRegulator (new AlwaysOnRegulator());
-        return new AlwaysOnRegulator();
+        return (AlwaysOnRegulator) reader.getGene(tokens[0]).getRegulator();
+    }
+
+    public static AlwaysOnRegulatorSerializer getInstance(){
+        if (instance == null) {
+            instance = new AlwaysOnRegulatorSerializer();
+        }
+        return instance;
     }
 }
