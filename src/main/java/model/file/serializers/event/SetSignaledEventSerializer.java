@@ -1,10 +1,8 @@
 package model.file.serializers.event;
 
-import model.events.SetProteinConcentrationEvent;
 import model.events.SetSignaledEvent;
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.serializers.EntitySerializer;
-import model.file.serializers.gene.ConcreteRegulatoryGeneSerializer;
 import model.file.serializers.list.ListGeneSerializer;
 import model.file.writer.RegulatoryNetworkWriter;
 

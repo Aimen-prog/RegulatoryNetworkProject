@@ -30,4 +30,5 @@ public abstract class CompositeRegulator implements Regulator{
         return null;
     }
 
+
 }

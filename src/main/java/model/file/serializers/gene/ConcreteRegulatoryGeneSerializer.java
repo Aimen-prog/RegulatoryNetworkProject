@@ -20,9 +20,12 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
     }
 
     //return string describing serializable object
+
+    //TODO: getINfo to be changed by getinitial with constant selializer also!!!
     @Override
     public String serialize(ConcreteRegulatoryGene entity, RegulatoryNetworkWriter writer) {
         return getCode() + " " + entity.getInfo();
+
     }
 
     // get the singleton

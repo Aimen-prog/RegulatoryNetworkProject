@@ -12,6 +12,7 @@ public class RegulatoryNetworkWriter {
 
     private GeneVisitor geneVisitor = new ConcreteGeneVisitor(this);
     private EventVisitor eventVisitor = new ConcreteEventVisitor(this);
+    private RegulatorVisitor regulatorVisitor = new ConcreteRegulatorVisitor(this);
 
     // METHOD section
     public RegulatoryNetworkWriter(){}
@@ -20,6 +21,7 @@ public class RegulatoryNetworkWriter {
         writeConfiguration(bufferedWriter, regulatoryNetwork);
         writeGenes(bufferedWriter, regulatoryNetwork);
         writeEvents(bufferedWriter, regulatoryNetwork);
+        writeRegulators(bufferedWriter, regulatoryNetwork);
 
     }
 
@@ -40,6 +42,16 @@ public class RegulatoryNetworkWriter {
             eventString += "\n";
             bufferedWriter.write(eventString);
 
+        }
+    }
+
+
+    private void writeRegulators(BufferedWriter bufferedWriter,RegulatoryNetwork regulatoryNetwork) throws IOException {
+        for(RegulatoryGene gene : regulatoryNetwork.getGenes()){
+//            String geneToBeReg = gene.accept(geneVisitor);
+//            String regulatorString = gene.getRegulator().accept(regulatorVisitor);
+//            String regulation = geneToBeReg + " "+ regulatorString +"\n";
+            bufferedWriter.write(gene.getName());
         }
     }
 

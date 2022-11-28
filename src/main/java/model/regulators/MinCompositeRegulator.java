@@ -1,5 +1,7 @@
 package model.regulators;
 
+import model.file.writer.RegulatorVisitor;
+
 import java.util.List;
 
 public class MinCompositeRegulator extends CompositeRegulator{
@@ -13,6 +15,11 @@ public class MinCompositeRegulator extends CompositeRegulator{
     }
 
     protected double cumulativeValue(double accumulator,double value) {
+
         return Math.min(accumulator, value);
+    }
+
+    public String accept(RegulatorVisitor visitor ){
+        return visitor.visit(this);
     }
 }

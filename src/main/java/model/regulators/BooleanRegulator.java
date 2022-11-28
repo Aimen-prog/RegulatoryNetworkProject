@@ -1,5 +1,6 @@
 package model.regulators;
 
+import model.file.writer.RegulatorVisitor;
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.RegulatoryGene;
 
@@ -23,6 +24,9 @@ public abstract class BooleanRegulator implements Regulator {
     public String getInfo() {
         return threshold + " "+ gene.getName();
     }
+
+
+
 }
 
 

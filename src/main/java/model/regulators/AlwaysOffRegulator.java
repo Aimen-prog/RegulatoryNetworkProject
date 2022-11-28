@@ -1,11 +1,13 @@
 package model.regulators;
 
+import model.file.writer.GeneVisitor;
 import model.file.writer.RegulatorVisitor;
 
-public class AlwaysOnRegulator implements Regulator{
+public class AlwaysOffRegulator implements Regulator{
+
     @Override
     public double inputFunction() {
-        return 1.;
+        return 0.;
     }
 
     @Override
