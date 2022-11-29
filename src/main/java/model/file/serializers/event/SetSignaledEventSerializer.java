@@ -21,7 +21,7 @@ public class SetSignaledEventSerializer implements EntitySerializer<SetSignaledE
 
     @Override
     public String serialize(SetSignaledEvent entity, RegulatoryNetworkWriter writer) {
-        ListGeneSerializer event = new ListGeneSerializer();
+        ListGeneSerializer event = ListGeneSerializer.getInstance();
         return getCode() + " " + entity.getTime()  + " " + event.serialize(entity.getGenes(),writer) + " "
                 + entity.getInfo(); //newSignaledValue
     }
@@ -37,11 +37,9 @@ public class SetSignaledEventSerializer implements EntitySerializer<SetSignaledE
     public SetSignaledEvent deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
         String gene_reg =  tokens[2];  // regulatory gene name list -> list of objects
-        ListGeneSerializer event = new ListGeneSerializer();
-        return new SetSignaledEvent( event.deserialize(gene_reg,reader),
+        return new SetSignaledEvent( ListGeneSerializer.getInstance().deserialize(gene_reg,reader),
                 Double.parseDouble(tokens[1] ),
                 Boolean.parseBoolean(tokens[3]));
-
 
     }
 }

@@ -13,9 +13,8 @@ public class BooleanActivator extends BooleanRegulator{
     public double inputFunction() {
         if (geneIsSignaled() & thresholdIsAttained()){
             return 1.0;
-        } else {
-            return 0.;
         }
+        return 0.;
     }
 
     public String accept(RegulatorVisitor visitor ){

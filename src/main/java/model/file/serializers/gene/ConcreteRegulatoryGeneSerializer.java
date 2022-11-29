@@ -23,8 +23,11 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
 
     @Override
     public String serialize(ConcreteRegulatoryGene entity, RegulatoryNetworkWriter writer) {
-        return getCode() + " "  + entity.getName() + " "  + entity.getMaximalProduction() + " "+ entity.getDegradationRate()
-                + " "+ entity.getInitialProteinConcentration()+ " "+ entity.getInitialIsSignaled();
+        return getCode() + " "  + entity.getName() + " "  +
+                entity.getInitialProteinConcentration() + " "
+                + entity.getMaximalProduction() + " "
+                + entity.getDegradationRate() + " "
+                + entity.getInitialIsSignaled();
 
     }
 
@@ -41,11 +44,10 @@ public class ConcreteRegulatoryGeneSerializer implements EntitySerializer<Concre
     public ConcreteRegulatoryGene deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
         return new ConcreteRegulatoryGene(tokens[1],
-                                            Double.parseDouble(tokens[2]),
-                                                    Double.parseDouble(tokens[3]),
-                                                        Double.parseDouble(tokens[4]),
+                                            Double.parseDouble(tokens[3]),
+                                                    Double.parseDouble(tokens[4]),
+                                                        Double.parseDouble(tokens[2]),
                                                                 Boolean.parseBoolean(tokens[5]));
     }
-
 
 }

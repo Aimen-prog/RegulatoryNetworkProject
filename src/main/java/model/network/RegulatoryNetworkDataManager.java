@@ -199,22 +199,34 @@ public class RegulatoryNetworkDataManager {
   }
 
 
-  public RegulatoryNetwork generate () {
-    List < RegulatoryGene > genes = new ArrayList <>() ;
-    RegulatoryGene x = new ConcreteRegulatoryGene ("X" , 3.0 , 0.1 , 2.0 , true ) ;
-    x.setRegulator (new AlwaysOnRegulator());
-    genes.add(x) ;
-    RegulatoryGene y = new ConcreteRegulatoryGene ("Y" , 4.0 , 0.12 , 2.0 , true ) ;
-    genes.add(y) ;
-    y.setRegulator ( new BooleanActivator(10 ,x )) ;
-    RegulatoryGene z = new ConcreteRegulatoryGene ("Z" , 5.0 , 0.15 , 2.0 , true ) ;
-    genes.add (z) ;
-    z.setRegulator ( new BooleanRepressor(7 , y ) ) ;
-    List < SimulationEvent > simulationEvents = new ArrayList <>() ;
-    simulationEvents . add ( new SetProteinConcentrationEvent ( List.of( x ) , 10.0 , 3.0) ) ;
-    simulationEvents . add ( new SetProteinConcentrationEvent ( List.of(x , y ) , 5.0 ,
-            4.0) ) ;
-    return new RegulatoryNetwork ( genes , simulationEvents , 0.01 , 20.0) ;
+
+  public RegulatoryNetwork generate() {
+    List<RegulatoryGene> genes = new ArrayList<>();
+    RegulatoryGene x = new ConcreteRegulatoryGene("X", 3.0, 0.1, 2.0, true);
+    genes.add(x);
+    RegulatoryGene y = new ConcreteRegulatoryGene("Y", 4.0, 0.12, 2.0, true);
+    genes.add(y);
+    RegulatoryGene z = new ConcreteRegulatoryGene("Z", 5.0, 0.15, 2.0, true);
+    genes.add(z);
+    BooleanActivator booleanActivator1 = new BooleanActivator(3, x);
+    BooleanRepressor booleanRepressor1 = new BooleanRepressor(7, y);
+    BooleanActivator booleanActivator2 = new BooleanActivator(1, z);
+    BooleanRepressor booleanRepressor2 = new BooleanRepressor(2, y);
+    BooleanActivator booleanActivator3 = new BooleanActivator(2, x);
+    BooleanRepressor booleanRepressor3 = new BooleanRepressor(2, z);
+    MinCompositeRegulator minCompositeRegulator = new MinCompositeRegulator(List.of(booleanActivator1, booleanActivator2));
+    MaxCompositeRegulator maxCompositeRegulator1 =
+            new MaxCompositeRegulator(List.of(booleanRepressor1, booleanRepressor2));
+    MaxCompositeRegulator maxCompositeRegulator2 =
+            new MaxCompositeRegulator(List.of(booleanRepressor3, booleanActivator3));
+    x.setRegulator(maxCompositeRegulator1);
+    y.setRegulator(maxCompositeRegulator2);
+    z.setRegulator(minCompositeRegulator);
+    List<SimulationEvent> simulationEvents = new ArrayList<>();
+    simulationEvents.add(new SetProteinConcentrationEvent(List.of(x), 10.0, 3.0));
+    simulationEvents.add(new SetProteinConcentrationEvent(List.of(x, y), 5.0, 4.0));
+    simulationEvents.add(new SetSignaledEvent(List.of(x, y), 15.0, false));
+    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20.0);
   }
 
 }
@@ -238,6 +250,3 @@ public class RegulatoryNetworkDataManager {
 //    List<SimulationEvent> simulationEvents = new ArrayList<>();
 //    return new RegulatoryNetwork(genes, simulationEvents, 0.01, 20);
 //  }
-
-
-

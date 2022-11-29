@@ -28,7 +28,7 @@ public class RegulatoryNetworkReader {
     private Map<String, RegulatoryGene> genes ;
     //events
     private Map<String, EntitySerializer <? extends SimulationEvent>> eventSerializers = new HashMap<>();
-    private List<SimulationEvent> events ;
+    private List<SimulationEvent> events = new ArrayList<>() ;
     //regulators
     private Map<String, EntitySerializer <? extends Regulator>> regulatorSerializers = new HashMap<>();
 
@@ -67,7 +67,7 @@ public class RegulatoryNetworkReader {
         return regulatorSerializers.get(code);
     }
 
-    ////
+
     public void addGene(RegulatoryGene gene){
         genes.put(gene.getName(),gene);
     }
@@ -78,7 +78,6 @@ public class RegulatoryNetworkReader {
 
     public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
         genes =  new HashMap<>();
-        events = new ArrayList<>();
         double timeUpperBound = 20; double timeStepLength = 0.01;
         for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()){
             String[] tokens = line.split(" ");
@@ -88,8 +87,9 @@ public class RegulatoryNetworkReader {
                 case "ConstantRegulatoryGene", "ConcreteRegulatoryGene" ->
                         addGene(getGeneSerializer(tokens[0]).deserialize(line,this));
                 case "SetProteinConcentrationEvent", "SetSignaledEvent" ->
-                    events.add(getEventSerializer(tokens[0]).deserialize(line, this));
-                default -> getRegulatorSerializer(tokens[1]).deserialize(line,this);
+                        events.add(getEventSerializer(tokens[0]).deserialize(line, this));
+                default -> getGene(tokens[0]).setRegulator(
+                        getRegulatorSerializer(tokens[1]).deserialize(line,this));
             }
         }
         return new RegulatoryNetwork(new ArrayList<>(genes.values()), events, timeStepLength, timeUpperBound);

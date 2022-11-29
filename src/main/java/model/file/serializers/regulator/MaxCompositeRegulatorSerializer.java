@@ -23,26 +23,21 @@ public class MaxCompositeRegulatorSerializer implements EntitySerializer<MaxComp
     }
 
 
-
-    //TODO: resolve writing compositeRegulator
     @Override
     public String serialize(MaxCompositeRegulator entity, RegulatoryNetworkWriter writer) {
-        ListRegulatorSerializer listRegulators = new ListRegulatorSerializer();
-        return getCode() + " " +  entity.getRegulators().toString();
-                //listRegulators.serialize(entity.getRegulators(),writer) ;
+        ListRegulatorSerializer listRegulators = ListRegulatorSerializer.getInstance();
+        return getCode() + " " +  listRegulators.serialize(entity.getRegulators(),writer) ;
     }
+
+
+
 
     @Override
     public MaxCompositeRegulator deserialize(String string, RegulatoryNetworkReader reader) {
-        ListRegulatorSerializer regulators = new ListRegulatorSerializer();
-        //get regulators [..,..] => token 2 normally
+        ListRegulatorSerializer regulators = ListRegulatorSerializer.getInstance();
         int start = string.indexOf("[");
         String sub = string.substring(start);
-        // get token 0
-        String[] tokens = string.split(" ");
-        reader.getGene(tokens[0])
-                .setRegulator(new MaxCompositeRegulator(regulators.deserialize(sub,reader)));
-        return (MaxCompositeRegulator) reader.getGene(tokens[0]).getRegulator();
+        return new MaxCompositeRegulator(regulators.deserialize(sub,reader));
     }
 
     public static MaxCompositeRegulatorSerializer getInstance(){

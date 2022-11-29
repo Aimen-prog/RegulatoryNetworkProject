@@ -7,8 +7,6 @@ import model.file.serializers.list.ListGeneSerializer;
 import model.file.writer.RegulatoryNetworkWriter;
 
 public class SetProteinConcentrationEventSerializer implements EntitySerializer<SetProteinConcentrationEvent> {
-
-
     private static SetProteinConcentrationEventSerializer instance;
     //Singleton: only one object copy exists
     // default private constructor
@@ -22,7 +20,7 @@ public class SetProteinConcentrationEventSerializer implements EntitySerializer<
     //SetProteinConcentration 10.0 [X] 3.0
     @Override
     public String serialize(SetProteinConcentrationEvent entity, RegulatoryNetworkWriter writer) {
-        ListGeneSerializer event = new ListGeneSerializer();
+        ListGeneSerializer event = ListGeneSerializer.getInstance();
         return getCode() + " " + entity.getTime()  + " " + event.serialize(entity.getGenes(),writer) + " "
                 + entity.getInfo(); //newConcentration
     }
@@ -38,8 +36,8 @@ public class SetProteinConcentrationEventSerializer implements EntitySerializer<
     public SetProteinConcentrationEvent deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
         String gene_reg =  tokens[2];  // regulatory gene name list -> list of objects
-        ListGeneSerializer event = new ListGeneSerializer();
-        return new SetProteinConcentrationEvent ( event.deserialize(gene_reg,reader),
+        //ListGeneSerializer event = new ListGeneSerializer();
+        return new SetProteinConcentrationEvent ( ListGeneSerializer.getInstance().deserialize(gene_reg,reader),
                                                     Double.parseDouble(tokens[1] ),
                                                         Double.parseDouble(tokens[3]));
     }

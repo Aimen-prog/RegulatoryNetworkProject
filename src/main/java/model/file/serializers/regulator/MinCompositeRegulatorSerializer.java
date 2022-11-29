@@ -20,20 +20,16 @@ public class MinCompositeRegulatorSerializer implements EntitySerializer<MinComp
 
     @Override
     public String serialize(MinCompositeRegulator entity, RegulatoryNetworkWriter writer) {
-        return getCode() + " " +  entity.getRegulators().toString(); //a changer
+        ListRegulatorSerializer listRegulators = ListRegulatorSerializer.getInstance();
+        return getCode() + " " +  listRegulators.serialize(entity.getRegulators(),writer) ;
     }
 
     @Override
     public MinCompositeRegulator deserialize(String string, RegulatoryNetworkReader reader) {
-        ListRegulatorSerializer regulators = new ListRegulatorSerializer();
-        //get regulators [..,..] => token 2 normally
+        ListRegulatorSerializer regulators =ListRegulatorSerializer.getInstance();
         int start = string.indexOf("[");
         String sub = string.substring(start);
-        // get token 0
-        String[] tokens = string.split(" ");
-        reader.getGene(tokens[0])
-                .setRegulator(new MinCompositeRegulator(regulators.deserialize(sub,reader)));
-        return (MinCompositeRegulator) reader.getGene(tokens[0]).getRegulator();
+        return new MinCompositeRegulator(regulators.deserialize(sub,reader));
     }
 
     public static MinCompositeRegulatorSerializer getInstance(){
