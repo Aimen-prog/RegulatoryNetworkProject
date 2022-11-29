@@ -30,5 +30,9 @@ public abstract class CompositeRegulator implements Regulator{
         return null;
     }
 
+    public List<Regulator> getRegulators(){
+        return regulators;
+    }
+
 
 }

@@ -16,7 +16,6 @@ public class ListRegulatorSerializer implements EntitySerializer<List<Regulator>
         return null;
     }
 
-    //"[BooleanRepressor 2.0 Z,BooleanActivator 2.0 X]]" à partir de la liste des deux régulateurs.
     @Override
     public String serialize(List<Regulator> entity, RegulatoryNetworkWriter writer) {
         String string = "[" ;

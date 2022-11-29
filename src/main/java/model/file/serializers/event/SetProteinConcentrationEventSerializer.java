@@ -12,7 +12,7 @@ public class SetProteinConcentrationEventSerializer implements EntitySerializer<
     private static SetProteinConcentrationEventSerializer instance;
     //Singleton: only one object copy exists
     // default private constructor
-    private static void SetProteinConcentrationEventSerializer(){}
+    private SetProteinConcentrationEventSerializer(){}
 
     @Override
     public String getCode() {

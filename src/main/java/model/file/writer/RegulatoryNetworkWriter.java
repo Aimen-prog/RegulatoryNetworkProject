@@ -45,21 +45,16 @@ public class RegulatoryNetworkWriter {
         }
     }
 
-
     private void writeRegulators(BufferedWriter bufferedWriter,RegulatoryNetwork regulatoryNetwork) throws IOException {
         for(RegulatoryGene gene : regulatoryNetwork.getGenes()){
             String regulatorString ="";
-            if ( gene.getRegulator() != null && gene.getRegulator().getInfo() != null) {
-                regulatorString += gene.getName() + " " + gene.getRegulator().getClass().getSimpleName();
-            }
-            // for alwaysOn/OffRegulator
-            if ( gene.getRegulator() != null && gene.getRegulator().getInfo() == null)  {
-                regulatorString += gene.getName() + " " + gene.getRegulator().getClass().getSimpleName()+ "\n";
+            if ( gene.getRegulator() != null ) {
+                regulatorString += gene.getName() + " "
+                        + gene.getRegulator().accept(regulatorVisitor)+ "\n";
             }
             bufferedWriter.write(regulatorString);
         }
     }
-
 
 
     // write TimeStep and TimeUpperBound

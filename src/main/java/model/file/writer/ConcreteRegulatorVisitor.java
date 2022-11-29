@@ -1,7 +1,6 @@
 package model.file.writer;
 
-import model.file.serializers.regulator.AlwaysOffRegulatorSerializer;
-import model.file.serializers.regulator.AlwaysOnRegulatorSerializer;
+import model.file.serializers.regulator.*;
 import model.regulators.*;
 
 public class ConcreteRegulatorVisitor implements RegulatorVisitor{
@@ -23,21 +22,21 @@ public class ConcreteRegulatorVisitor implements RegulatorVisitor{
 
     @Override
     public String visit(BooleanActivator regulator) {
-        return null;
+        return BooleanActivatorSerializer.getInstance().serialize(regulator,writer);
     }
 
     @Override
     public String visit(BooleanRepressor regulator) {
-        return null;
+        return BooleanRepressorSerializer.getInstance().serialize(regulator,writer);
     }
 
     @Override
     public String visit(MaxCompositeRegulator regulator) {
-        return null;
+        return MaxCompositeRegulatorSerializer.getInstance().serialize(regulator,writer);
     }
 
     @Override
     public String visit(MinCompositeRegulator regulator) {
-        return null;
+        return MinCompositeRegulatorSerializer.getInstance().serialize(regulator,writer);
     }
 }

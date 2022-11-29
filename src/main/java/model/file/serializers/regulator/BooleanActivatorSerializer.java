@@ -3,6 +3,7 @@ package model.file.serializers.regulator;
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.serializers.EntitySerializer;
 import model.file.writer.RegulatoryNetworkWriter;
+import model.regulators.AlwaysOffRegulator;
 import model.regulators.BooleanActivator;
 
 
@@ -10,7 +11,7 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
 
     private static BooleanActivatorSerializer instance;
 
-    private static void BooleanActivatorSerializer(){}
+    private BooleanActivatorSerializer(){}
 
 
 
@@ -21,14 +22,16 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
 
     @Override
     public String serialize(BooleanActivator entity, RegulatoryNetworkWriter writer) {
-
-        return null;
+        return getCode() + " " + entity.getInfo();
     }
-
+    // return threshold + " "+ gene.getName();
     @Override
     public BooleanActivator deserialize(String string, RegulatoryNetworkReader reader) {
-
-        return null;
+        String[] tokens = string.split(" ");
+        reader.getGene(tokens[0])
+                .setRegulator(new BooleanActivator(Double.parseDouble(tokens[2]),
+                                    reader.getGene(tokens[3])));
+        return (BooleanActivator) reader.getGene(tokens[0]).getRegulator();
     }
 
     public static BooleanActivatorSerializer getInstance(){

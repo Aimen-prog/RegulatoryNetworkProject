@@ -11,7 +11,7 @@ public class SetSignaledEventSerializer implements EntitySerializer<SetSignaledE
     private static SetSignaledEventSerializer instance;
     //Singleton: only one object copy exists
     // default private constructor
-    private static void SetSignaledEventSerializer(){}
+    private SetSignaledEventSerializer(){}
 
 
     @Override

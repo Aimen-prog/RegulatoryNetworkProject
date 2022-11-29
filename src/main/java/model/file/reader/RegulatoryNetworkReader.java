@@ -7,11 +7,11 @@ import model.file.serializers.gene.ConcreteRegulatoryGeneSerializer;
 import model.file.serializers.gene.ConstantRegulatoryGeneSerializer;
 import model.file.serializers.EntitySerializer;
 import model.file.serializers.list.ListGeneSerializer;
-import model.file.serializers.regulator.AlwaysOffRegulatorSerializer;
-import model.file.serializers.regulator.AlwaysOnRegulatorSerializer;
+import model.file.serializers.regulator.*;
 import model.file.writer.ConcreteGeneVisitor;
 import model.genes.RegulatoryGene;
 import model.network.RegulatoryNetwork;
+import model.regulators.BooleanRegulator;
 import model.regulators.Regulator;
 
 import java.io.BufferedReader;
@@ -39,8 +39,11 @@ public class RegulatoryNetworkReader {
         addEventSerializer(SetSignaledEventSerializer.getInstance());
         addRegulatorSerializer(AlwaysOnRegulatorSerializer.getInstance());
         addRegulatorSerializer(AlwaysOffRegulatorSerializer.getInstance());
+        addRegulatorSerializer(BooleanActivatorSerializer.getInstance());
+        addRegulatorSerializer(BooleanRepressorSerializer.getInstance());
+        addRegulatorSerializer(MaxCompositeRegulatorSerializer.getInstance());
+        addRegulatorSerializer(MinCompositeRegulatorSerializer.getInstance());
     }
-
 
     private void addGeneSerializer(EntitySerializer<? extends RegulatoryGene> serializer ){
         geneSerializers.put(serializer.getCode(), serializer);
@@ -56,7 +59,6 @@ public class RegulatoryNetworkReader {
         return eventSerializers.get(code);
     }
 
-    ///
 
     private void addRegulatorSerializer( EntitySerializer <? extends Regulator> serializer){
         regulatorSerializers.put(serializer.getCode(), serializer);
