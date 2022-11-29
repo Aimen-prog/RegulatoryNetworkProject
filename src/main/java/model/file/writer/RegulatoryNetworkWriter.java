@@ -64,22 +64,3 @@ public class RegulatoryNetworkWriter {
 
     }
 }
-
-
-//    private void writeRegulators(BufferedWriter bufferedWriter, RegulatoryNetwork regulatoryNetwork) throws IOException {
-//        Map<String, Regulator> regulators= new HashMap<>();
-//        for (RegulatoryGene gene: regulatoryNetwork.getGenes()){
-//            if (gene.getRegulator()!=null){
-//                regulators.put(gene.getName(), gene.getRegulator());
-//            }
-//        }
-//        if (regulators.isEmpty()){
-//            bufferedWriter.write("");
-//        }
-//        else {
-//            for (int i = 0; i < regulators.size(); i++) {
-//                String name = regulatoryNetwork.getGenes().get(i).getName();
-//                bufferedWriter.write(name+ " " + regulators.get(name).accept(regulatorVisitor));
-//            }
-//        }
-//    }

@@ -19,7 +19,6 @@ public class ConstantRegulatoryGeneSerializer implements EntitySerializer<Consta
         return getCode() + " " +  entity.getName() +" "+ entity.getInitialProteinConcentration()
                 + " "+ entity.getInitialIsSignaled();
     }
-
     @Override
     public ConstantRegulatoryGene deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
@@ -27,7 +26,6 @@ public class ConstantRegulatoryGeneSerializer implements EntitySerializer<Consta
                 Double.parseDouble(tokens[2]),
                 Boolean.parseBoolean(tokens[3]));
     }
-
 
     public static ConstantRegulatoryGeneSerializer getInstance(){
         if (instance == null) {

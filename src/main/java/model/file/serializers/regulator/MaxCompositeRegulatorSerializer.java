@@ -29,9 +29,7 @@ public class MaxCompositeRegulatorSerializer implements EntitySerializer<MaxComp
         return getCode() + " " +  listRegulators.serialize(entity.getRegulators(),writer) ;
     }
 
-
-
-
+    
     @Override
     public MaxCompositeRegulator deserialize(String string, RegulatoryNetworkReader reader) {
         ListRegulatorSerializer regulators = ListRegulatorSerializer.getInstance();
