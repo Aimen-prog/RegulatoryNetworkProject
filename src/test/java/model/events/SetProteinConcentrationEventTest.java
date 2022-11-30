@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class SetProteinConcentrationTest {
+public class SetProteinConcentrationEventTest {
 
     @Test
     public void testUpdateGenes(){

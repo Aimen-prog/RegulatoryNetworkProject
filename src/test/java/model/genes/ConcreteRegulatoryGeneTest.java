@@ -3,7 +3,6 @@ package model.genes;
 import model.regulators.AlwaysOnRegulator;
 import model.regulators.BooleanActivator;
 import model.regulators.BooleanRepressor;
-import model.regulators.Regulator;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,93 +10,93 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ConcreteRegulatoryGeneTest {
     @Test
     public void testSetProteinConcentration() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",6, 0.5,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",6, 0.5,
                 10.0, true);
-        assertEquals(10.0,reg.getProteinConcentration());
-        reg.setProteinConcentration(15.0);
-        assertEquals(15.0,reg.getProteinConcentration());
-        assertNotEquals(10.0,reg.getProteinConcentration());
-        reg.setProteinConcentration(-1.0);
-        assertEquals(0.,reg.getProteinConcentration());
+        assertEquals(10.0,gene.getProteinConcentration());
+        gene.setProteinConcentration(15.0);
+        assertEquals(15.0,gene.getProteinConcentration());
+        assertNotEquals(10.0,gene.getProteinConcentration());
+        gene.setProteinConcentration(-1.0);
+        assertEquals(0.,gene.getProteinConcentration());
     }
     @Test
     public void testGetProteinConcentration() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",6, 0.5,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",6, 0.5,
                 10.0, true);
-        assertEquals(10.0,reg.getProteinConcentration());
-        reg.setProteinConcentration(8.0);
-        assertEquals(8.0,reg.getProteinConcentration());
-        reg.setProteinConcentration(15.0);
-        assertEquals(15.0,reg.getProteinConcentration());
-        assertNotEquals(8.0,reg.getProteinConcentration());
+        assertEquals(10.0,gene.getProteinConcentration());
+        gene.setProteinConcentration(8.0);
+        assertEquals(8.0,gene.getProteinConcentration());
+        gene.setProteinConcentration(15.0);
+        assertEquals(15.0,gene.getProteinConcentration());
+        assertNotEquals(8.0,gene.getProteinConcentration());
     }
 
 
     @Test
     public void testGetInitialProteinConcentration(){
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
         10.1, true);
-        assertEquals(10.1, reg.getInitialProteinConcentration());
-        RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
+        assertEquals(10.1, gene.getInitialProteinConcentration());
+        RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(reg2.getInitialProteinConcentration()==10.1);
-        assertEquals(5.1, reg2.getInitialProteinConcentration());
+        assertFalse(gene2.getInitialProteinConcentration()==10.1);
+        assertEquals(5.1, gene2.getInitialProteinConcentration());
     }
 
 
     @Test
     public void testGetName() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene regene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
-        assertThat(reg.getName()).startsWith("IN").endsWith("S");
-        RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
+        assertThat(regene.getName()).startsWith("IN").endsWith("S");
+        RegulatoryGene regene2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertThat(reg2.getName()).isEqualTo ("P53");
+        assertThat(regene2.getName()).isEqualTo ("P53");
 
     }
     @Test
     public void testToString() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.0, true);
-        assertThat(reg.toString()).startsWith("RegulatoryGene{name= INS").endsWith("true}");
-        reg.setSignaled(false);
-        assertThat(reg.toString()).startsWith("RegulatoryGene{name= INS").endsWith("false}");
+        assertThat(gene.toString()).startsWith("RegulatoryGene{name= INS").endsWith("true}");
+        gene.setSignaled(false);
+        assertThat(gene.toString()).startsWith("RegulatoryGene{name= INS").endsWith("false}");
     }
 
     @Test
     public void testIsSignaled() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
-        assertTrue(reg.isSignaled());
-        RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",5.1, 0.15,
+        assertTrue(gene.isSignaled());
+        RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",5.1, 0.15,
                 12.1, true);
-        assertTrue(reg2.isSignaled());
+        assertTrue(gene2.isSignaled());
     }
 
     @Test
     public void testSetSignaled() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
-        assertTrue(reg.isSignaled());
-        reg.setSignaled(false);
-        assertNotEquals(true, reg.isSignaled());
+        assertTrue(gene.isSignaled());
+        gene.setSignaled(false);
+        assertNotEquals(true, gene.isSignaled());
 
-        RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
+        RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(reg2.isSignaled());
-        reg2.setSignaled(true);
-        assertNotEquals(false, reg2.isSignaled());
+        assertFalse(gene2.isSignaled());
+        gene2.setSignaled(true);
+        assertNotEquals(false, gene2.isSignaled());
     }
 
     @Test
     public void testGetMaximalProduction(){
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
-        assertEquals(5.1, reg.getMaximalProduction());
-        assertFalse(reg.getMaximalProduction()==0.1);
-        RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
+        assertEquals(5.1, gene.getMaximalProduction());
+        assertFalse(gene.getMaximalProduction()==0.1);
+        RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(reg2.getMaximalProduction()==5.1);
+        assertFalse(gene2.getMaximalProduction()==5.1);
     }
 
     @Test

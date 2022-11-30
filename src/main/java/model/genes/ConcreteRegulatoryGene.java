@@ -3,6 +3,8 @@ package model.genes;
 import model.file.writer.GeneVisitor;
 import model.regulators.Regulator;
 
+import java.util.Objects;
+
 public class ConcreteRegulatoryGene implements RegulatoryGene{
 
     private Regulator regulator;
@@ -112,5 +114,18 @@ public class ConcreteRegulatoryGene implements RegulatoryGene{
     }
 
     public boolean getInitialIsSignaled(){ return initialIsSignaled;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConcreteRegulatoryGene that = (ConcreteRegulatoryGene) o;
+        return Double.compare(that.maximalProduction, maximalProduction) == 0
+                && Double.compare(that.degradationRate, degradationRate) == 0
+                && Double.compare(that.initialProteinConcentration, initialProteinConcentration) == 0
+                && Double.compare(that.proteinConcentration, proteinConcentration) == 0
+                && initialIsSignaled == that.initialIsSignaled
+                && name.equals(that.name) && isSignaled.equals(that.isSignaled);
+    }
 
 }

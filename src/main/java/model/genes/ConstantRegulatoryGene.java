@@ -3,6 +3,8 @@ package model.genes;
 import model.file.writer.GeneVisitor;
 import model.regulators.Regulator;
 
+import java.util.Objects;
+
 public class ConstantRegulatoryGene implements RegulatoryGene{
   private double proteinConcentration;
   private final double initialProteinConcentration;
@@ -80,4 +82,15 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
   public boolean getInitialIsSignaled(){ return initialIsSignaled;}
 
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ConstantRegulatoryGene that = (ConstantRegulatoryGene) o;
+    return Double.compare(that.proteinConcentration, proteinConcentration) == 0
+            && Double.compare(that.initialProteinConcentration, initialProteinConcentration) == 0
+            && isSignaled == that.isSignaled
+            && initialIsSignaled == that.initialIsSignaled
+            && name.equals(that.name);
+  }
 }
