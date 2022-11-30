@@ -25,7 +25,7 @@ public class RegulatoryNetworkReader {
 
     //genes
     private Map<String, EntitySerializer<? extends RegulatoryGene>> geneSerializers = new HashMap<>();
-    private Map<String, RegulatoryGene> genes ;
+    private Map<String, RegulatoryGene> genes = new HashMap<>(); ;
     //events
     private Map<String, EntitySerializer <? extends SimulationEvent>> eventSerializers = new HashMap<>();
     private List<SimulationEvent> events = new ArrayList<>() ;
@@ -77,7 +77,6 @@ public class RegulatoryNetworkReader {
 
 
     public RegulatoryNetwork read(BufferedReader bufferedReader) throws IOException {
-        genes =  new HashMap<>();
         double timeUpperBound = 20; double timeStepLength = 0.01;
         for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()){
             String[] tokens = line.split(" ");

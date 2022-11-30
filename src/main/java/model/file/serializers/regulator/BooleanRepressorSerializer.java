@@ -19,15 +19,14 @@ public class BooleanRepressorSerializer implements EntitySerializer<BooleanRepre
 
     @Override
     public String serialize(BooleanRepressor entity, RegulatoryNetworkWriter writer) {
-        return getCode() + " " ;
+        return getCode() + " " + entity.getInfo();
     }
 
     @Override
     public BooleanRepressor deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
-        reader.getGene(tokens[0]).setRegulator(new BooleanRepressor(Double.parseDouble(tokens[2]),
-                        reader.getGene(tokens[3])));
-        return (BooleanRepressor) reader.getGene(tokens[0]).getRegulator();
+        return new BooleanRepressor(Double.parseDouble(tokens[2]),
+                reader.getGene(tokens[3]));
 
     }
 

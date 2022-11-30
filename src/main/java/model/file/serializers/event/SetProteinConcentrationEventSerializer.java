@@ -35,9 +35,7 @@ public class SetProteinConcentrationEventSerializer implements EntitySerializer<
     @Override
     public SetProteinConcentrationEvent deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
-        String gene_reg =  tokens[2];  // regulatory gene name list -> list of objects
-        //ListGeneSerializer event = new ListGeneSerializer();
-        return new SetProteinConcentrationEvent ( ListGeneSerializer.getInstance().deserialize(gene_reg,reader),
+        return new SetProteinConcentrationEvent ( ListGeneSerializer.getInstance().deserialize(tokens[2],reader),
                                                     Double.parseDouble(tokens[1] ),
                                                         Double.parseDouble(tokens[3]));
     }

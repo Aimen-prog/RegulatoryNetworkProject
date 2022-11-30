@@ -5,6 +5,7 @@ import model.file.writer.GeneVisitor;
 import model.genes.RegulatoryGene;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SetSignaledEvent extends AbstractSimulationEvent {
 
@@ -29,4 +30,13 @@ public class SetSignaledEvent extends AbstractSimulationEvent {
     public String accept(EventVisitor eventVisitor ){
         return eventVisitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SetSignaledEvent that = (SetSignaledEvent) o;
+        return newSignaledValue == that.newSignaledValue;
+    }
+
 }

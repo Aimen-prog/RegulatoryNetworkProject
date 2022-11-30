@@ -23,7 +23,10 @@ public class ListRegulatorSerializer implements EntitySerializer<List<Regulator>
     public String serialize(List<Regulator> entity, RegulatoryNetworkWriter writer) {
         String string = "[" ;
         for(int index = 0; index < entity.size(); index++){
-            string += entity.get(index).getClass().getSimpleName() + " " + entity.get(index).getInfo() + ",";
+            if (entity.get(index).getInfo() != null)
+                string += entity.get(index).getClass().getSimpleName() + " " + entity.get(index).getInfo() + ",";
+            else
+                string += entity.get(index).getClass().getSimpleName()+ ",";
         }
         //replace last comma with a closing bracket
         string = string.replaceAll(",$","]");

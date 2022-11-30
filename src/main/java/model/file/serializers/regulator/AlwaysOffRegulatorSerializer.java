@@ -25,9 +25,7 @@ public class AlwaysOffRegulatorSerializer implements EntitySerializer<AlwaysOffR
 
     @Override
     public AlwaysOffRegulator deserialize(String string, RegulatoryNetworkReader reader) {
-        String[] tokens = string.split(" ");
-        reader.getGene(tokens[0]).setRegulator (new AlwaysOffRegulator());
-        return (AlwaysOffRegulator) reader.getGene(tokens[0]).getRegulator();
+        return new AlwaysOffRegulator();
     }
 
     public static AlwaysOffRegulatorSerializer getInstance(){

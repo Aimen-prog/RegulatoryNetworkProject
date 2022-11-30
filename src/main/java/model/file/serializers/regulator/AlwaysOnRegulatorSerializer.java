@@ -26,9 +26,7 @@ public class AlwaysOnRegulatorSerializer implements EntitySerializer<AlwaysOnReg
 
     @Override
     public AlwaysOnRegulator deserialize(String string, RegulatoryNetworkReader reader) {
-        String[] tokens = string.split(" ");
-        reader.getGene(tokens[0]).setRegulator (new AlwaysOnRegulator());
-        return (AlwaysOnRegulator) reader.getGene(tokens[0]).getRegulator();
+        return new AlwaysOnRegulator();
     }
 
     public static AlwaysOnRegulatorSerializer getInstance(){

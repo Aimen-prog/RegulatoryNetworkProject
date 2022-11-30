@@ -13,8 +13,6 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
 
     private BooleanActivatorSerializer(){}
 
-
-
     @Override
     public String getCode() {
         return "BooleanActivator";
@@ -28,10 +26,8 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
     @Override
     public BooleanActivator deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");
-        reader.getGene(tokens[0])
-                .setRegulator(new BooleanActivator(Double.parseDouble(tokens[2]),
-                                    reader.getGene(tokens[3])));
-        return (BooleanActivator) reader.getGene(tokens[0]).getRegulator();
+        return new BooleanActivator(Double.parseDouble(tokens[2]),
+                reader.getGene(tokens[3]));
     }
 
     public static BooleanActivatorSerializer getInstance(){

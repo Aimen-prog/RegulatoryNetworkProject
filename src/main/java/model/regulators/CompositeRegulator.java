@@ -2,6 +2,7 @@ package model.regulators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Collections.*;
 
@@ -34,5 +35,13 @@ public abstract class CompositeRegulator implements Regulator{
         return regulators;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CompositeRegulator that = (CompositeRegulator) o;
+        return regulators.equals(that.regulators);
+    }
 
 }
