@@ -1,20 +1,18 @@
 package model.events;
+
 import model.genes.ConcreteRegulatoryGene;
 import model.genes.RegulatoryGene;
-import model.regulators.AlwaysOnRegulator;
-import model.regulators.BooleanActivator;
-import model.regulators.BooleanRegulator;
-import model.regulators.Regulator;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class AbstractSimulationEventTest {
+public class SetProteinConcentrationTest {
 
     @Test
     public void testUpdateGenes(){
@@ -23,8 +21,6 @@ public class AbstractSimulationEventTest {
                 50, false);
         RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",20, 0.5,
                 20, true);
-        gene1.setProteinConcentration(gene1.getInitialProteinConcentration());
-        gene2.setProteinConcentration(gene2.getInitialProteinConcentration());
         geneList.add(gene1);
         geneList.add(gene2);
         AbstractSimulationEvent simulation = new SetProteinConcentrationEvent(geneList,10.,15.);
@@ -34,13 +30,6 @@ public class AbstractSimulationEventTest {
         simulation.updateGenes();
         assertThat(geneList.get(0).getProteinConcentration()).isEqualTo(15.);
         assertThat(geneList.get(1).getProteinConcentration()).isEqualTo(15.);
-
-        AbstractSimulationEvent simulation2 = new SetSignaledEvent(geneList,10.,true);
-        assertFalse(geneList.get(0).isSignaled());
-        assertTrue(geneList.get(1).isSignaled());
-        simulation2.updateGenes();
-        assertTrue(geneList.get(0).isSignaled());
-        assertTrue(geneList.get(1).isSignaled());
     }
 
 }

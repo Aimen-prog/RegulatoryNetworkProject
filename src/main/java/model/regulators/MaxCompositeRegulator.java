@@ -16,7 +16,6 @@ public class MaxCompositeRegulator extends CompositeRegulator{
 
     protected double cumulativeValue(double accumulator,double value) {
         return Math.max(accumulator, value);
-
     }
 
     public String accept(RegulatorVisitor visitor ){

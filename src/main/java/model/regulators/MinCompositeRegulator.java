@@ -15,7 +15,6 @@ public class MinCompositeRegulator extends CompositeRegulator{
     }
 
     protected double cumulativeValue(double accumulator,double value) {
-
         return Math.min(accumulator, value);
     }
 

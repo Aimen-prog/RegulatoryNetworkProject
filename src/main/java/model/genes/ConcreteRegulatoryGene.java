@@ -96,7 +96,12 @@ public class ConcreteRegulatoryGene implements RegulatoryGene{
         return getMaximalProduction();
     }
 
-
+    @Override
+    public String toString() {
+        return "RegulatoryGene{name= " + name +
+                ", isSignaled= " + isSignaled +
+                '}';
+    }
     public String getInfo(){
         return getName() +" "+ getMaximalProduction() + " "+ getDegradationRate()
                 + " "+ getInitialProteinConcentration()+ " "+ isSignaled();

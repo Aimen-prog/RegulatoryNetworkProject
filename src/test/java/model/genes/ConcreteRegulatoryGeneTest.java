@@ -1,6 +1,8 @@
 package model.genes;
 
 import model.regulators.AlwaysOnRegulator;
+import model.regulators.BooleanActivator;
+import model.regulators.BooleanRepressor;
 import model.regulators.Regulator;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -11,7 +13,6 @@ public class ConcreteRegulatoryGeneTest {
     public void testSetProteinConcentration() {
         RegulatoryGene reg = new ConcreteRegulatoryGene("INS",6, 0.5,
                 10.0, true);
-        reg.setProteinConcentration(reg.getInitialProteinConcentration());
         assertEquals(10.0,reg.getProteinConcentration());
         reg.setProteinConcentration(15.0);
         assertEquals(15.0,reg.getProteinConcentration());
@@ -23,12 +24,12 @@ public class ConcreteRegulatoryGeneTest {
     public void testGetProteinConcentration() {
         RegulatoryGene reg = new ConcreteRegulatoryGene("INS",6, 0.5,
                 10.0, true);
-        assertEquals(0.0,reg.getProteinConcentration());
-        reg.setProteinConcentration(reg.getInitialProteinConcentration());
         assertEquals(10.0,reg.getProteinConcentration());
+        reg.setProteinConcentration(8.0);
+        assertEquals(8.0,reg.getProteinConcentration());
         reg.setProteinConcentration(15.0);
         assertEquals(15.0,reg.getProteinConcentration());
-        assertNotEquals(10.0,reg.getProteinConcentration());
+        assertNotEquals(8.0,reg.getProteinConcentration());
     }
 
 
@@ -37,10 +38,10 @@ public class ConcreteRegulatoryGeneTest {
         RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
         10.1, true);
         assertEquals(10.1, reg.getInitialProteinConcentration());
-        assertFalse(reg.getInitialProteinConcentration()==0.1);
         RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(reg2.getInitialProteinConcentration()==8.);
+        assertFalse(reg2.getInitialProteinConcentration()==10.1);
+        assertEquals(5.1, reg2.getInitialProteinConcentration());
     }
 
 
@@ -101,31 +102,47 @@ public class ConcreteRegulatoryGeneTest {
 
     @Test
     public void testGetDegradationRate(){
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",5.1, 0.1,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
-        assertTrue(reg.getDegradationRate()==0.1);
-        assertFalse(reg.getDegradationRate()==5.1);
+        assertTrue(gene.getDegradationRate()==0.1);
+        assertFalse(gene.getDegradationRate()==5.1);
         RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
         assertFalse(reg2.getDegradationRate()==0.1);
     }
     @Test
     public void testSetRegulator() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",6, 0.5,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",6, 0.5,
                 10.0, true);
-        reg.setRegulator(new AlwaysOnRegulator());
-        assertNotNull(reg.getRegulator());
-        assertEquals(1.0, reg.getRegulator().inputFunction());
+        RegulatoryGene gene2 = new ConcreteRegulatoryGene("RNS",6, 0.5,
+                10.0, true);
+        RegulatoryGene gene3 = new ConcreteRegulatoryGene("FS",16, 1.5,
+                10.0, true);
+        gene.setRegulator(new AlwaysOnRegulator());
+        assertNotNull(gene.getRegulator());
+        assertEquals(1.0, gene.getRegulator().inputFunction());
+        assertNull(gene2.getRegulator());
+        gene2.setRegulator(new BooleanActivator(10,gene3));
+        assertNotNull(gene2.getRegulator());
+
     }
 
     @Test
     public void testGetRegulator() {
-        RegulatoryGene reg = new ConcreteRegulatoryGene("INS",6, 0.5,
+        RegulatoryGene gene = new ConcreteRegulatoryGene("INS",6, 0.5,
                 10.0, true);
-        assertNull(reg.getRegulator());
-        reg.setRegulator(new AlwaysOnRegulator());
-        assertNotNull(reg.getRegulator());
-        assertEquals(1.0, reg.getRegulator().inputFunction());
+        RegulatoryGene gene2 = new ConcreteRegulatoryGene("RNS",6, 0.5,
+                10.0, true);
+        RegulatoryGene gene3 = new ConcreteRegulatoryGene("FS",16, 1.5,
+                10.0, true);
+        assertNull(gene.getRegulator());
+        gene.setRegulator(new AlwaysOnRegulator());
+        assertNotNull(gene.getRegulator());
+        assertEquals(1.0, gene.getRegulator().inputFunction());
+        gene2.setRegulator(new BooleanRepressor(10,gene3));
+        assertEquals("BooleanRepressor",gene2.getRegulator().getClass().getSimpleName());
+        assertEquals("10.0 FS",gene2.getRegulator().getInfo());
+
     }
     @Test
     public void testUpdate(){
