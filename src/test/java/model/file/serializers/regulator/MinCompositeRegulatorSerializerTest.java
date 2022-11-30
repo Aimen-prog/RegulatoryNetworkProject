@@ -28,9 +28,8 @@ public class MinCompositeRegulatorSerializerTest {
         RegulatoryNetworkWriter writer = new RegulatoryNetworkWriter();
         assertEquals("MinCompositeRegulator [BooleanActivator 14.0 INS,AlwaysOnRegulator]",
                 MinCompositeRegulatorSerializer.getInstance().serialize(compMin,writer));
-
-
     }
+
     @Test
     public void testDeserialize() {
         RegulatoryNetworkReader reader = new RegulatoryNetworkReader();
