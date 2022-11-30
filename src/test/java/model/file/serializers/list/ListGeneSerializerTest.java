@@ -40,12 +40,9 @@ public class ListGeneSerializerTest {
 
         ListGeneSerializer.getInstance().deserialize(gnames,new RegulatoryNetworkReader());
 
-        assertTrue(ListGeneSerializer.getInstance().deserialize(gnames,reader)
-                .get(0).equals(genelist.get(0)));
-        assertTrue(ListGeneSerializer.getInstance().deserialize(gnames,reader)
-                .get(1).equals(genelist.get(1)));
-        assertFalse(ListGeneSerializer.getInstance().deserialize(gnames,reader)
-                .get(0).equals(genelist.get(1)));
+        assertEquals(ListGeneSerializer.getInstance().deserialize(gnames, reader).get(0), genelist.get(0));
+        assertEquals(ListGeneSerializer.getInstance().deserialize(gnames, reader).get(1), genelist.get(1));
+        assertNotEquals(ListGeneSerializer.getInstance().deserialize(gnames, reader).get(0), genelist.get(1));
 
     }
 }

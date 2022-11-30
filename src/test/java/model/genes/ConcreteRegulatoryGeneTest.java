@@ -16,8 +16,6 @@ public class ConcreteRegulatoryGeneTest {
         gene.setProteinConcentration(15.0);
         assertEquals(15.0,gene.getProteinConcentration());
         assertNotEquals(10.0,gene.getProteinConcentration());
-        gene.setProteinConcentration(-1.0);
-        assertEquals(0.,gene.getProteinConcentration());
     }
     @Test
     public void testGetProteinConcentration() {
@@ -39,7 +37,7 @@ public class ConcreteRegulatoryGeneTest {
         assertEquals(10.1, gene.getInitialProteinConcentration());
         RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(gene2.getInitialProteinConcentration()==10.1);
+        assertNotEquals(10.1, gene2.getInitialProteinConcentration(), 0.0);
         assertEquals(5.1, gene2.getInitialProteinConcentration());
     }
 
@@ -93,21 +91,21 @@ public class ConcreteRegulatoryGeneTest {
         RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
         assertEquals(5.1, gene.getMaximalProduction());
-        assertFalse(gene.getMaximalProduction()==0.1);
+        assertNotEquals(0.1, gene.getMaximalProduction(), 0.0);
         RegulatoryGene gene2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(gene2.getMaximalProduction()==5.1);
+        assertNotEquals(5.1, gene2.getMaximalProduction(), 0.0);
     }
 
     @Test
     public void testGetDegradationRate(){
         RegulatoryGene gene = new ConcreteRegulatoryGene("INS",5.1, 0.1,
                 10.1, true);
-        assertTrue(gene.getDegradationRate()==0.1);
-        assertFalse(gene.getDegradationRate()==5.1);
+        assertEquals(0.1, gene.getDegradationRate());
+        assertNotEquals(5.1, gene.getDegradationRate(), 0.0);
         RegulatoryGene reg2 = new ConcreteRegulatoryGene("P53",8., 0.15,
                 5.1, false);
-        assertFalse(reg2.getDegradationRate()==0.1);
+        assertNotEquals(0.1, reg2.getDegradationRate(), 0.0);
     }
     @Test
     public void testSetRegulator() {

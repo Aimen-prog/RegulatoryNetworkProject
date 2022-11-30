@@ -1,7 +1,6 @@
 package model.file.serializers.gene;
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.writer.RegulatoryNetworkWriter;
-import model.genes.ConcreteRegulatoryGene;
 import model.genes.ConstantRegulatoryGene;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -32,7 +31,7 @@ public class ConstantRegulatoryGeneSerializerTest {
                 ConstantRegulatoryGeneSerializer.getInstance().deserialize(line,reader);
         ConstantRegulatoryGene expected_gene =
                 new ConstantRegulatoryGene("AGR", 5.1, true);
-        assertTrue(output_gene.equals(expected_gene));
+        assertEquals(output_gene, expected_gene);
     }
 
 

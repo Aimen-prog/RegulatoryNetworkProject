@@ -1,10 +1,5 @@
 package model.regulators;
-
-import model.file.writer.RegulatorVisitor;
-import model.genes.ConcreteRegulatoryGene;
 import model.genes.RegulatoryGene;
-
-import java.util.Objects;
 
 public abstract class BooleanRegulator implements Regulator {
     protected double threshold ;

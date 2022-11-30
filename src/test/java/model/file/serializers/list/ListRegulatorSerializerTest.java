@@ -2,10 +2,8 @@ package model.file.serializers.list;
 import model.file.reader.RegulatoryNetworkReader;
 import model.file.writer.RegulatoryNetworkWriter;
 import model.genes.ConcreteRegulatoryGene;
-import model.genes.ConstantRegulatoryGene;
 import model.genes.RegulatoryGene;
 import model.regulators.BooleanActivator;
-import model.regulators.BooleanRegulator;
 import model.regulators.Regulator;
 import org.junit.jupiter.api.Test;
 
@@ -48,13 +46,9 @@ public class ListRegulatorSerializerTest {
 
         ListGeneSerializer.getInstance().deserialize(rstring,new RegulatoryNetworkReader());
 
-        assertTrue(ListRegulatorSerializer.getInstance().deserialize(rstring,reader)
-                .get(0).equals(reglist.get(0)));
-        assertTrue(ListRegulatorSerializer.getInstance().deserialize(rstring,reader)
-                .get(1).equals(reglist.get(1)));
-        assertFalse(ListRegulatorSerializer.getInstance().deserialize(rstring,reader)
-                .get(1).equals(reglist.get(0)));
-
+        assertEquals(ListRegulatorSerializer.getInstance().deserialize(rstring, reader).get(0), reglist.get(0));
+        assertEquals(ListRegulatorSerializer.getInstance().deserialize(rstring, reader).get(1), reglist.get(1));
+        assertNotEquals(ListRegulatorSerializer.getInstance().deserialize(rstring, reader).get(1), reglist.get(0));
 
     }
 

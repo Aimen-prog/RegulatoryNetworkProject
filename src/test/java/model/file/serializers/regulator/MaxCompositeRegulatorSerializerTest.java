@@ -47,10 +47,8 @@ public class MaxCompositeRegulatorSerializerTest {
         MaxCompositeRegulator actual = MaxCompositeRegulatorSerializer.getInstance().deserialize(line,reader);
 
 
-        assertTrue(actual.getRegulators().get(0).equals(
-                            compMax.getRegulators().get(0)));
-        assertTrue(actual.getRegulators().get(1).getClass().getSimpleName().
-                equals(compMax.getRegulators().get(1).getClass().getSimpleName()));
+        assertEquals(actual.getRegulators().get(0), compMax.getRegulators().get(0));
+        assertEquals(actual.getRegulators().get(1).getClass().getSimpleName(), compMax.getRegulators().get(1).getClass().getSimpleName());
 
 
     }

@@ -11,8 +11,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class MinCompositeRegulatorTest {
 
-
-
     @Test
     public void testInputFunction() {
         List<Regulator> RegulatorList = new ArrayList<>();
@@ -32,9 +30,6 @@ public class MinCompositeRegulatorTest {
 
 
     }
-
-
-
 
 
 }
