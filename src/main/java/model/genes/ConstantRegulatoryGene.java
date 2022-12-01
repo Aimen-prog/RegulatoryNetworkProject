@@ -13,8 +13,11 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
   private boolean initialIsSignaled;
 
   public ConstantRegulatoryGene(String name, double proteinConcentration, boolean isSignaled) {
+    if (proteinConcentration < 0.)
+      throw new IllegalArgumentException("The concentration cannot be negative!");
+    else
+      this.initialProteinConcentration = proteinConcentration;
     this.proteinConcentration = proteinConcentration;
-    this.initialProteinConcentration = proteinConcentration;
     this.name = name;
     this.isSignaled = isSignaled;
     this.initialIsSignaled = isSignaled;

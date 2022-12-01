@@ -18,9 +18,12 @@ public class ConcreteRegulatoryGene implements RegulatoryGene{
     private final boolean initialIsSignaled;
 
     public ConcreteRegulatoryGene(String name, double maximalProduction, double degradationRate, double initialProteinConcentration, boolean isSignaled) {
+        if (initialProteinConcentration < 0.)
+            throw new IllegalArgumentException("The concentration cannot be negative!");
+        else
+            this.initialProteinConcentration = initialProteinConcentration;
         this.maximalProduction = maximalProduction;
         this.degradationRate = degradationRate;
-        this.initialProteinConcentration = initialProteinConcentration;
         this.proteinConcentration = initialProteinConcentration;
         this.name = name;
         this.isSignaled = isSignaled;
