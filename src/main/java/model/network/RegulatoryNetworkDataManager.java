@@ -271,7 +271,7 @@ public class RegulatoryNetworkDataManager {
     //Hill section added
     RegulatoryGene h = new ConcreteRegulatoryGene("H", 9.0, 0.10, 2.0, true);
     genes.add(h);
-    h.setRegulator(new HillActivator(4,7 ,z));
+    h.setRegulator(new HillActivator(4,17 ,z));
     // Hill section end
     List<SimulationEvent> simulationEvents = new ArrayList<>();
     simulationEvents.add(new SetProteinConcentrationEvent(List.of(x), 10.0, 3.0));

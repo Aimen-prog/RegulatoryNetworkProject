@@ -1,6 +1,4 @@
 package model.regulators;
-
-import model.file.writer.GeneVisitor;
 import model.file.writer.RegulatorVisitor;
 
 public class AlwaysOffRegulator implements Regulator{

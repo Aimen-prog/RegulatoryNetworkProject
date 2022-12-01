@@ -1,9 +1,10 @@
-# Réseau de régulation de gènes
+# Regulatory Network Project
 
-## Description du projet
+## Description
 
-Pour ce projet, vous allez implémenter des classes pour simuler un réseau régulation de gènes.
+This app does a simple simulation of a gene regulatory network using different regulators
+(Composite, Boolean, Hill) by reading .rgn format file.
 
-## Membre du projet
+## Author
 
-- CHERIF Aimen
+CHERIF Aimen

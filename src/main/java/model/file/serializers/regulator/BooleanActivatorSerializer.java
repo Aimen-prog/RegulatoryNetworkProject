@@ -22,7 +22,7 @@ public class BooleanActivatorSerializer implements EntitySerializer<BooleanActiv
     public String serialize(BooleanActivator entity, RegulatoryNetworkWriter writer) {
         return getCode() + " " + entity.getInfo();
     }
-    // return threshold + " "+ gene.getName();
+
     @Override
     public BooleanActivator deserialize(String string, RegulatoryNetworkReader reader) {
         String[] tokens = string.split(" ");

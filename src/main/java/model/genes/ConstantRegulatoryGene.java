@@ -37,7 +37,10 @@ public class ConstantRegulatoryGene implements RegulatoryGene{
 
   @Override
   public void setProteinConcentration(double proteinConcentration) {
-    this.proteinConcentration = proteinConcentration;
+    if (proteinConcentration < 0.)
+      throw new IllegalArgumentException("The concentration cannot be negative!");
+    else
+      this.proteinConcentration = proteinConcentration;
   }
 
   public String getName() {
