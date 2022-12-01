@@ -44,8 +44,8 @@ public class MainAppController {
     if (file != null) {
       try {
         BufferedReader bufferedReader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_16);
-        regulatoryNetwork = regulatoryNetworkReader.read(bufferedReader); //regulatoryNetworkDataManager
-        plot(regulatoryNetwork);
+        regulatoryNetwork = regulatoryNetworkDataManager.read(bufferedReader); //
+        plot(regulatoryNetwork);  //regulatoryNetworkReader
         bufferedReader.close();
       }
       catch(IOException exception){
@@ -69,8 +69,8 @@ public class MainAppController {
     if (file != null) {
       try {
         BufferedWriter stream = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_16);
-        regulatoryNetworkWriter.write(stream, regulatoryNetwork); //regulatoryNetworkDataManager
-        stream.close();
+        regulatoryNetworkDataManager.write(stream, regulatoryNetwork); //
+        stream.close();  //regulatoryNetworkWriter
       }
       catch(IOException exception){
         exception.printStackTrace();

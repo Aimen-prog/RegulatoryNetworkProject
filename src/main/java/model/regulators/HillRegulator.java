@@ -9,8 +9,8 @@ public abstract class HillRegulator implements Regulator {
 
     protected HillRegulator(double HillCoef, double activationCoef, RegulatoryGene regulator){
         this.HillCoef=HillCoef;
-        this.gene= regulator;
         this.activationCoef =activationCoef;
+        this.gene= regulator;
     }
 
     public double getHillCoef(){

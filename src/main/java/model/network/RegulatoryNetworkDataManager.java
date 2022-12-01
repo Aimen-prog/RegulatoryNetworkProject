@@ -94,6 +94,8 @@ public class RegulatoryNetworkDataManager {
         case "AlwaysOnRegulator" -> readAlwaysOnRegulator(genes, tokens);
         case "BooleanActivator" -> readBooleanActivator(genes, tokens);
         case "BooleanRepressor" -> readBooleanRepressor(genes, tokens);
+        case "HillActivator" -> readHillActivator(genes, tokens);
+        case "HillRepressor" -> readHillRepressor(genes, tokens);
         case "SetProteinConcentrationEvent" -> readSetProteinConcentrationEvent(events, tokens, genes);
         case "SetSignaledEvent" -> readSetSignaledEvent(events, tokens, genes);
         default -> throw new IOException("Parse error line " + lineNumber);
@@ -140,6 +142,31 @@ public class RegulatoryNetworkDataManager {
     }
     // add the event after reading all three elements
     events.add ( new SetProteinConcentrationEvent ( genes_list, time , newConcentration) ) ;
+  }
+
+
+  private static void readHillActivator(Map<String,RegulatoryGene>  genes, String[] tokens) {
+    String name = tokens[1];  // gene to be regulated
+    double HillCoef = Double.parseDouble(tokens[2]);
+    double activationCoef = Double.parseDouble(tokens[3]);
+    String name_regulator =  tokens[4];  // regulatory gene
+    for (String key: genes.keySet()) {
+      if(key.equals(name_regulator)){
+        genes.get(name).setRegulator (new HillActivator(HillCoef,activationCoef, genes.get(key)));
+      }
+    }
+
+  }  private static void readHillRepressor(Map<String,RegulatoryGene>  genes, String[] tokens) {
+    String name = tokens[1];  // gene to be regulated
+    double HillCoef = Double.parseDouble(tokens[2]);
+    double activationCoef = Double.parseDouble(tokens[3]);
+    String name_regulator =  tokens[4];  // regulatory gene
+    for (String key: genes.keySet()) {
+      if(key.equals(name_regulator)){
+        genes.get(name).setRegulator (new HillRepressor(HillCoef,activationCoef, genes.get(key)));
+      }
+    }
+
   }
 
 
@@ -241,9 +268,11 @@ public class RegulatoryNetworkDataManager {
     RegulatoryGene z = new ConcreteRegulatoryGene("Z", 5.0, 0.15, 2.0, true);
     genes.add(z);
     z.setRegulator(new BooleanRepressor(7, y));
-    RegulatoryGene h = new ConcreteRegulatoryGene("H", 7.0, 0.10, 2.0, true);
+    //Hill section added
+    RegulatoryGene h = new ConcreteRegulatoryGene("H", 9.0, 0.10, 2.0, true);
     genes.add(h);
-    h.setRegulator(new HillActivator(2,18,y));
+    h.setRegulator(new HillActivator(4,7 ,z));
+    // Hill section end
     List<SimulationEvent> simulationEvents = new ArrayList<>();
     simulationEvents.add(new SetProteinConcentrationEvent(List.of(x), 10.0, 3.0));
     simulationEvents.add(new SetProteinConcentrationEvent(List.of(x, y), 5.0, 4.0));
